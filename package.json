@@ -1,0 +1,19 @@
+{
+  "name": "schemamap",
+  "version": "1.0.0",
+  "description": "Map messy CSVs to Shopify/Stripe in 30 seconds",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @schemamap/web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test"
+  },
+  "keywords": ["csv", "shopify", "stripe", "mapping", "data"],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "packageManager": "pnpm@8.0.0"
+}

@@ -1,0 +1,85 @@
+import { Template } from '../types';
+
+export const stripeCustomersTemplate: Template = {
+  key: 'stripe-customers',
+  title: 'Stripe Customers',
+  notes: [
+    'Email must be in valid format',
+    'Country should be 2-letter code (US, CA) or full name',
+    'Names will be properly capitalized',
+    'All address fields are optional',
+  ],
+  fields: [
+    {
+      key: 'email',
+      label: 'Email',
+      required: true,
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['e-mail', 'email address'],
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['full name', 'customer name', 'display name'],
+    },
+    {
+      key: 'description',
+      label: 'Description',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['notes', 'memo', 'comment'],
+    },
+    {
+      key: 'phone',
+      label: 'Phone',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['telephone', 'phone number', 'mobile'],
+    },
+    {
+      key: 'address_line1',
+      label: 'Address Line 1',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['addr1', 'address1', 'street address', 'address'],
+    },
+    {
+      key: 'address_line2',
+      label: 'Address Line 2',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['addr2', 'address2', 'apt', 'suite', 'unit'],
+    },
+    {
+      key: 'city',
+      label: 'City',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['suburb', 'town'],
+    },
+    {
+      key: 'state',
+      label: 'State',
+      type: 'string',
+      transform: ['trim'],
+      synonyms: ['province', 'region', 'state/province'],
+    },
+    {
+      key: 'postal_code',
+      label: 'Postal Code',
+      type: 'string',
+      transform: ['trim', 'upper'],
+      synonyms: ['zip', 'postcode', 'zip code'],
+    },
+    {
+      key: 'country',
+      label: 'Country',
+      type: 'string',
+      transform: ['trim', 'upper'],
+      synonyms: ['country code', 'nation'],
+    },
+  ],
+};
