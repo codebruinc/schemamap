@@ -6,7 +6,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 ```bash
 # Clone the repository
-git clone https://github.com/schemamap/schemamap.git
+git clone https://github.com/codebruinc/schemamap.git
 cd schemamap
 
 # Install dependencies

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @schemamap/web dev",
     "build": "pnpm -r build",
+    "build:cf": "pnpm install && pnpm --filter @schemamap/engine build && pnpm --filter @schemamap/web build",
+    "deploy": "wrangler pages deploy apps/web/out --project-name=schemamap",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test"
   },

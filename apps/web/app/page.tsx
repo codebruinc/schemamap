@@ -15,7 +15,7 @@ export default function HomePage() {
               <Link href="/docs" className="text-gray-600 hover:text-gray-900">Docs</Link>
               <Link href="/cli" className="text-gray-600 hover:text-gray-900">CLI</Link>
               <Link href="/pricing" className="text-gray-600 hover:text-gray-900">Pricing</Link>
-              <Link href="https://github.com/schemamap/schemamap" className="text-gray-600 hover:text-gray-900">GitHub</Link>
+              <Link href="https://github.com/codebruinc/schemamap" className="text-gray-600 hover:text-gray-900">GitHub</Link>
             </nav>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function HomePage() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/privacy" className="text-gray-600 hover:text-gray-900">Privacy</Link></li>
                 <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900">Pricing</Link></li>
-                <li><a href="https://github.com/schemamap/schemamap" className="text-gray-600 hover:text-gray-900">GitHub</a></li>
+                <li><a href="https://github.com/codebruinc/schemamap" className="text-gray-600 hover:text-gray-900">GitHub</a></li>
               </ul>
             </div>
           </div>

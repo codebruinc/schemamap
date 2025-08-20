@@ -55,7 +55,7 @@ export default function PrivacyPage() {
           <p>
             SchemaMap is fully open source under the MIT license. You can review our code, 
             host your own instance, or contribute improvements on{' '}
-            <a href="https://github.com/schemamap/schemamap" className="text-blue-600 hover:underline">
+            <a href="https://github.com/codebruinc/schemamap" className="text-blue-600 hover:underline">
               GitHub
             </a>.
           </p>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
           <h2>Questions or concerns</h2>
           <p>
             If you have questions about this privacy policy, please{' '}
-            <a href="https://github.com/schemamap/schemamap/issues" className="text-blue-600 hover:underline">
+            <a href="https://github.com/codebruinc/schemamap/issues" className="text-blue-600 hover:underline">
               open an issue on GitHub
             </a>.
           </p>

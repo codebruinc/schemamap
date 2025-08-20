@@ -3,7 +3,7 @@
 Map messy CSVs to Shopify/Stripe in 30 seconds. No login. Runs in your browser.
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![CI](https://github.com/schemamap/schemamap/workflows/ci/badge.svg)](https://github.com/schemamap/schemamap/actions)
+[![CI](https://github.com/codebruinc/schemamap/workflows/ci/badge.svg)](https://github.com/codebruinc/schemamap/actions)
 
 ## 🚀 Quick Start
 
@@ -129,5 +129,5 @@ MIT - see [LICENSE](LICENSE) file.
 - **Website:** [schemamap.app](https://schemamap.app)
 - **Documentation:** [schemamap.app/docs](https://schemamap.app/docs)
 - **CLI Guide:** [schemamap.app/cli](https://schemamap.app/cli)  
-- **GitHub:** [github.com/schemamap/schemamap](https://github.com/schemamap/schemamap)
-- **Issues:** [github.com/schemamap/schemamap/issues](https://github.com/schemamap/schemamap/issues)
+- **GitHub:** [github.com/codebruinc/schemamap](https://github.com/codebruinc/schemamap)
+- **Issues:** [github.com/codebruinc/schemamap/issues](https://github.com/codebruinc/schemamap/issues)

@@ -189,7 +189,7 @@ export default function ShopifyProductsDocsPage() {
 
             <h2>Need help?</h2>
             <p>
-              <Link href="https://github.com/schemamap/schemamap/issues" className="text-blue-600 hover:underline">
+              <Link href="https://github.com/codebruinc/schemamap/issues" className="text-blue-600 hover:underline">
                 Open an issue on GitHub
               </Link> if you encounter problems or need support for additional CSV formats.
             </p>
