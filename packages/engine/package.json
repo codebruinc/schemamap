@@ -10,11 +10,8 @@
     "lint": "tsc --noEmit",
     "test": "vitest"
   },
-  "dependencies": {
-    "fast-levenshtein": "^3.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/fast-levenshtein": "^0.0.4",
     "@types/node": "^20.19.11",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",

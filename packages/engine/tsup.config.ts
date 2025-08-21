@@ -7,6 +7,4 @@ export default defineConfig({
   clean: true,
   minify: false,
   splitting: false,
-  bundle: true,
-  external: [],
 });
