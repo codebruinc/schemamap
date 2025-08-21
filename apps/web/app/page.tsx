@@ -114,33 +114,30 @@ export default function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Try with sample files</h2>
-          <p className="text-xl text-gray-600 mb-8">Download these sample CSVs to test the mapping tool</p>
+          <p className="text-xl text-gray-600 mb-8">Run these sample CSVs instantly in the mapper</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/samples/shopify-products-sample.csv" 
-              download
+            <Link 
+              href="/map?schema=shopify-products#sample=products"
               className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors"
             >
-              <Download className="w-4 h-4" />
-              Shopify Products Sample
-            </a>
-            <a 
-              href="/samples/shopify-inventory-sample.csv" 
-              download
+              <ArrowRight className="w-4 h-4" />
+              Try Shopify Products Sample
+            </Link>
+            <Link 
+              href="/map?schema=shopify-inventory#sample=inventory"
               className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors"
             >
-              <Download className="w-4 h-4" />
-              Shopify Inventory Sample
-            </a>
-            <a 
-              href="/samples/stripe-customers-sample.csv" 
-              download
+              <ArrowRight className="w-4 h-4" />
+              Try Shopify Inventory Sample
+            </Link>
+            <Link 
+              href="/map?schema=stripe-customers#sample=customers"
               className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors"
             >
-              <Download className="w-4 h-4" />
-              Stripe Customers Sample
-            </a>
+              <ArrowRight className="w-4 h-4" />
+              Try Stripe Customers Sample
+            </Link>
           </div>
         </div>
       </section>
