@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "cd apps/web && npm run dev",
-    "build": "cd packages/engine && npm run build && cd ../../apps/web && npm run build",
+    "build": "cd packages/engine && npm install && npm run build && cd ../../apps/web && npm install && npm run build",
     "build:cf": "cd packages/engine && npm install && npm run build && cd ../../apps/web && npm install && npm run build",
     "deploy": "wrangler deploy",
     "deploy:dev": "wrangler deploy --env dev",
