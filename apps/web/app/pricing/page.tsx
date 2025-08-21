@@ -108,7 +108,7 @@ export default function PricingPage() {
             <div className="text-center mb-6 mt-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Large File Pass</h2>
               <div className="text-4xl font-bold text-blue-600 mb-2">$5</div>
-              <p className="text-gray-600">One-off payment via Stripe</p>
+              <p className="text-gray-600">One-time payment • Instant activation</p>
             </div>
             
             <ul className="space-y-3 mb-8">
