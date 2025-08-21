@@ -1,17 +1,15 @@
 name = "schemamap"
-main = "worker.js"
+main = "src/index.ts"
 compatibility_date = "2024-01-01"
 workers_dev = true
+node_compat = true
 
+# Static assets configuration
 [site]
 bucket = "./apps/web/out"
 
 [build]
-command = "npm install && npm run build"
+command = "npm run build:cf"
 
 [env.production]
 workers_dev = false
-routes = [
-  { pattern = "schemamap.com", custom_domain = true },
-  { pattern = "www.schemamap.com", custom_domain = true }
-]
