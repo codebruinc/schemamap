@@ -5,6 +5,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Shopify Products CSV Mapper — SchemaMap',
   description: 'Step-by-step guide to map and validate your Shopify Products CSV using SchemaMap',
+  openGraph: {
+    title: 'Shopify Products CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Shopify Products CSV using SchemaMap',
+    url: 'https://schemamap.app/docs/shopify-products-csv-mapper',
+    siteName: 'SchemaMap',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Shopify Products CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Shopify Products CSV using SchemaMap',
+  },
 };
 
 export default function ShopifyProductsDocsPage() {

@@ -5,6 +5,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Shopify Inventory CSV Mapper — SchemaMap',
   description: 'Step-by-step guide to map and validate your Shopify Inventory CSV using SchemaMap',
+  openGraph: {
+    title: 'Shopify Inventory CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Shopify Inventory CSV using SchemaMap',
+    url: 'https://schemamap.app/docs/shopify-inventory-csv-mapper',
+    siteName: 'SchemaMap',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Shopify Inventory CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Shopify Inventory CSV using SchemaMap',
+  },
 };
 
 export default function ShopifyInventoryDocsPage() {

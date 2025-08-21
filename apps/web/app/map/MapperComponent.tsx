@@ -34,41 +34,49 @@ export default function MapperComponent() {
     const hash = window.location.hash;
     if (hash.includes('#sample=')) {
       const sampleType = hash.split('#sample=')[1];
-      const sampleFiles = {
-        'products': '/samples/shopify-products-sample.csv',
-        'inventory': '/samples/shopify-inventory-sample.csv', 
-        'customers': '/samples/stripe-customers-sample.csv'
-      };
       
-      const sampleFile = sampleFiles[sampleType as keyof typeof sampleFiles];
-      if (sampleFile) {
-        fetch(sampleFile)
-          .then(response => response.text())
-          .then(csvText => {
-            Papa.parse(csvText, {
-              header: true,
-              skipEmptyLines: true,
-              complete: (results) => {
-                const data = results.data as any[];
-                const detectedHeaders = Object.keys(data[0] || {});
-                
-                setHeaders(detectedHeaders);
-                setCsvData(data);
-                
-                // Auto-generate mapping
-                const autoMapping = guessMapping(detectedHeaders, template);
-                setMapping(autoMapping);
-                
-                // Initialize transforms
-                const initialTransforms: Record<string, string[]> = {};
-                template.fields.forEach(field => {
-                  initialTransforms[field.key] = [];
-                });
-                setTransforms(initialTransforms);
-              }
-            });
-          })
-          .catch(console.error);
+      // Inline 5-row samples for instant loading
+      const sampleData = {
+        'products': [
+          { 'Product Title': 'Wireless Headphones', 'Handle': 'wireless-headphones', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'WH001', 'Price': '89.99', 'Description': 'Premium wireless headphones', 'Vendor': 'AudioTech', 'Category': 'Electronics', 'Stock': '50' },
+          { 'Product Title': 'Coffee Mug', 'Handle': 'coffee-mug-ceramic', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'MUG002', 'Price': '12.50', 'Description': 'Ceramic coffee mug', 'Vendor': 'HomeBrew', 'Category': 'Kitchen', 'Stock': '100' },
+          { 'Product Title': 'Yoga Mat', 'Handle': 'yoga-mat-premium', 'Status': 'draft', 'Published': 'FALSE', 'SKU': 'YM003', 'Price': '45.00', 'Description': 'Premium yoga mat', 'Vendor': 'FitLife', 'Category': 'Sports', 'Stock': '25' },
+          { 'Product Title': 'Notebook Set', 'Handle': 'notebook-set-leather', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'NB004', 'Price': '24.99', 'Description': 'Leather notebook set', 'Vendor': 'PaperCraft', 'Category': 'Stationery', 'Stock': '75' },
+          { 'Product Title': 'Phone Case', 'Handle': 'phone-case-clear', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'PC005', 'Price': '15.00', 'Description': 'Clear protective case', 'Vendor': 'TechGuard', 'Category': 'Accessories', 'Stock': '200' }
+        ],
+        'inventory': [
+          { 'SKU': 'WH001', 'Available Qty': '45', 'Location': 'Main Warehouse', 'Unit Cost': '35.00' },
+          { 'SKU': 'MUG002', 'Available Qty': '95', 'Location': 'Main Warehouse', 'Unit Cost': '4.50' },
+          { 'SKU': 'YM003', 'Available Qty': '20', 'Location': 'Main Warehouse', 'Unit Cost': '18.00' },
+          { 'SKU': 'NB004', 'Available Qty': '70', 'Location': 'Store Front', 'Unit Cost': '8.99' },
+          { 'SKU': 'PC005', 'Available Qty': '180', 'Location': 'Main Warehouse', 'Unit Cost': '5.50' }
+        ],
+        'customers': [
+          { 'Email': 'john.smith@example.com', 'Full Name': 'John Smith', 'Phone': '+1-555-0123', 'Street Address': '123 Main St', 'City': 'New York', 'State': 'NY', 'ZIP': '10001', 'Country': 'US' },
+          { 'Email': 'sarah.johnson@example.com', 'Full Name': 'Sarah Johnson', 'Phone': '+1-555-0124', 'Street Address': '456 Oak Ave', 'City': 'Los Angeles', 'State': 'CA', 'ZIP': '90210', 'Country': 'US' },
+          { 'Email': 'mike.davis@example.com', 'Full Name': 'Mike Davis', 'Phone': '+1-555-0125', 'Street Address': '789 Pine St', 'City': 'Chicago', 'State': 'IL', 'ZIP': '60601', 'Country': 'US' },
+          { 'Email': 'emma.wilson@example.com', 'Full Name': 'Emma Wilson', 'Phone': '+1-555-0126', 'Street Address': '321 Elm Dr', 'City': 'Houston', 'State': 'TX', 'ZIP': '77001', 'Country': 'US' },
+          { 'Email': 'alex.brown@example.com', 'Full Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Street Address': '654 Maple Ln', 'City': 'Phoenix', 'State': 'AZ', 'ZIP': '85001', 'Country': 'US' }
+        ]
+      };
+
+      const data = sampleData[sampleType as keyof typeof sampleData];
+      if (data) {
+        const detectedHeaders = Object.keys(data[0] || {});
+        
+        setHeaders(detectedHeaders);
+        setCsvData(data);
+        
+        // Auto-generate mapping
+        const autoMapping = guessMapping(detectedHeaders, template);
+        setMapping(autoMapping);
+        
+        // Initialize transforms
+        const initialTransforms: Record<string, string[]> = {};
+        template.fields.forEach(field => {
+          initialTransforms[field.key] = [];
+        });
+        setTransforms(initialTransforms);
       }
     }
   }, [template]);

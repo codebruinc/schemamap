@@ -9,6 +9,21 @@ export async function GET() {
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>${baseUrl}/map/shopify-products</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/map/shopify-inventory</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/map/stripe-customers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>${baseUrl}/map?schema=shopify-products</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

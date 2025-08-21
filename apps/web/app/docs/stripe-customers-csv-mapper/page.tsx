@@ -5,6 +5,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Stripe Customers CSV Mapper — SchemaMap',
   description: 'Step-by-step guide to map and validate your Stripe Customers CSV using SchemaMap',
+  openGraph: {
+    title: 'Stripe Customers CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Stripe Customers CSV using SchemaMap',
+    url: 'https://schemamap.app/docs/stripe-customers-csv-mapper',
+    siteName: 'SchemaMap',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Stripe Customers CSV Mapper — SchemaMap',
+    description: 'Step-by-step guide to map and validate your Stripe Customers CSV using SchemaMap',
+  },
 };
 
 export default function StripeCustomersDocsPage() {
