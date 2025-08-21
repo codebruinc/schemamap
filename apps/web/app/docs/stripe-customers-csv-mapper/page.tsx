@@ -3,21 +3,21 @@ import { ArrowRight, Download, ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Shopify Products CSV Mapper — SchemaMap',
-  description: 'Step-by-step guide to map and validate your Shopify Products CSV using SchemaMap',
+  title: 'Stripe Customers CSV Mapper — SchemaMap',
+  description: 'Step-by-step guide to map and validate your Stripe Customers CSV using SchemaMap',
 };
 
-export default function ShopifyProductsDocsPage() {
+export default function StripeCustomersDocsPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": "How to map a CSV to Shopify Products",
+    "name": "How to map a CSV to Stripe Customers",
     "step": [
-      {"@type":"HowToStep","text":"Export your CSV or prepare your source file"},
-      {"@type":"HowToStep","text":"Open the mapper: https://schemamap.app/map?schema=shopify-products"},
+      {"@type":"HowToStep","text":"Export your customer CSV or prepare your source file"},
+      {"@type":"HowToStep","text":"Open the mapper: https://schemamap.app/map?schema=stripe-customers"},
       {"@type":"HowToStep","text":"Check the auto-mapped fields; fix any unmapped ones"},
-      {"@type":"HowToStep","text":"Review errors (price not numeric, missing SKU)"},
-      {"@type":"HowToStep","text":"Download the validated CSV and import to Shopify"}
+      {"@type":"HowToStep","text":"Review errors (invalid email formats, missing required fields)"},
+      {"@type":"HowToStep","text":"Download the validated CSV and import to Stripe"}
     ]
   };
 
@@ -36,10 +36,10 @@ export default function ShopifyProductsDocsPage() {
               <span>/</span>
               <Link href="/docs" className="hover:text-gray-900">Docs</Link>
               <span>/</span>
-              <span className="text-gray-900">Shopify Products CSV Mapper</span>
+              <span className="text-gray-900">Stripe Customers CSV Mapper</span>
             </nav>
             <h1 className="text-3xl font-bold text-gray-900">
-              Shopify Products CSV Mapper — SchemaMap
+              Stripe Customers CSV Mapper — SchemaMap
             </h1>
           </div>
         </header>
@@ -53,28 +53,28 @@ export default function ShopifyProductsDocsPage() {
               <h2 className="text-xl font-semibold text-blue-900">Quick Start</h2>
             </div>
             <p className="text-blue-800 mb-4">
-              Skip the reading and start mapping your CSV right now:
+              Skip the reading and start mapping your customer CSV right now:
             </p>
             <Link 
-              href="/map?schema=shopify-products#sample=products"
+              href="/map?schema=stripe-customers#sample=customers"
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold inline-flex items-center gap-2 transition-colors"
             >
-              Try Sample Products CSV <ExternalLink className="w-4 h-4" />
+              Try Sample Customers CSV <ExternalLink className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="prose max-w-none">
             <h2>Step-by-step process</h2>
             
-            <h3>1. Export your CSV or prepare your source file</h3>
+            <h3>1. Export your customer CSV or prepare your source file</h3>
             <p>
-              You can map any CSV with product data. Common sources include:
+              You can map any CSV with customer data. Common sources include:
             </p>
             <ul>
-              <li>Existing Shopify export (Products → Export → CSV)</li>
-              <li>Inventory management system export</li>
-              <li>Supplier product catalogs</li>
-              <li>Manual spreadsheets</li>
+              <li>Existing Stripe customer export (Dashboard → Customers → Export)</li>
+              <li>CRM system exports (Salesforce, HubSpot, etc.)</li>
+              <li>E-commerce platform customer data</li>
+              <li>Manual customer spreadsheets</li>
             </ul>
 
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
@@ -83,19 +83,19 @@ export default function ShopifyProductsDocsPage() {
                 Don't have a CSV to test? Download our sample file:
               </p>
               <a 
-                href="/samples/shopify-products-sample.csv"
+                href="/samples/stripe-customers-sample.csv"
                 download
                 className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-medium"
               >
                 <Download className="w-4 h-4" />
-                Download sample CSV
+                Download sample customers CSV
               </a>
             </div>
 
             <h3>2. Open the mapper</h3>
             <p>
-              <Link href="/map?schema=shopify-products" className="text-blue-600 hover:underline font-medium">
-                Open the Shopify Products mapper
+              <Link href="/map?schema=stripe-customers" className="text-blue-600 hover:underline font-medium">
+                Open the Stripe Customers mapper
               </Link> and upload your CSV. The tool will:
             </p>
             <ul>
@@ -119,54 +119,53 @@ export default function ShopifyProductsDocsPage() {
                 </thead>
                 <tbody>
                   <tr className="border-t">
-                    <td className="p-3 font-medium">Title</td>
-                    <td className="p-3 text-gray-600">name, product title, product name</td>
+                    <td className="p-3 font-medium">Email</td>
+                    <td className="p-3 text-gray-600">e-mail, email address</td>
                   </tr>
                   <tr className="border-t bg-gray-50">
-                    <td className="p-3 font-medium">Handle</td>
-                    <td className="p-3 text-gray-600">slug, url handle, product handle</td>
+                    <td className="p-3 font-medium">Name</td>
+                    <td className="p-3 text-gray-600">full name, customer name, display name</td>
                   </tr>
                   <tr className="border-t">
-                    <td className="p-3 font-medium">Variant SKU</td>
-                    <td className="p-3 text-gray-600">sku, product sku</td>
+                    <td className="p-3 font-medium">Phone</td>
+                    <td className="p-3 text-gray-600">telephone, phone number, mobile</td>
                   </tr>
                   <tr className="border-t bg-gray-50">
-                    <td className="p-3 font-medium">Variant Price</td>
-                    <td className="p-3 text-gray-600">price, cost, amount</td>
+                    <td className="p-3 font-medium">Address Line 1</td>
+                    <td className="p-3 text-gray-600">addr1, address1, street address, address</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <h3>4. Review errors (price not numeric, missing SKU)</h3>
+            <h3>4. Review errors (invalid email formats, missing required fields)</h3>
             <p>
               The validator will check for common issues:
             </p>
             <ul>
-              <li><strong>Required fields missing:</strong> Title, Handle, Status, Published, Variant SKU, Variant Price</li>
-              <li><strong>Invalid status:</strong> Must be 'active', 'draft', or 'archived'</li>
-              <li><strong>Invalid published value:</strong> Must be 'TRUE' or 'FALSE'</li>
-              <li><strong>Non-numeric price:</strong> Prices must be numbers ≥ 0</li>
-              <li><strong>Invalid inventory policy:</strong> Must be 'deny' or 'continue'</li>
+              <li><strong>Required fields missing:</strong> Email (the only required field)</li>
+              <li><strong>Invalid email format:</strong> Must be valid email addresses</li>
+              <li><strong>Postal code formatting:</strong> Will be automatically uppercased</li>
+              <li><strong>Country formatting:</strong> Will be automatically uppercased</li>
             </ul>
 
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <h4 className="font-semibold text-yellow-900 mb-2">⚠️ Common fixes</h4>
               <ul className="text-yellow-800 text-sm space-y-1">
-                <li><strong>TRUE/FALSE required for Published.</strong> Convert yes/no, 1/0, or similar values.</li>
-                <li><strong>Status must be active/draft/archived.</strong> Map from published/unpublished or similar.</li>
-                <li><strong>Remove currency symbols</strong> from price fields ($, €, etc.)</li>
-                <li><strong>Handle should be URL-friendly</strong> (lowercase, hyphens instead of spaces)</li>
+                <li><strong>Email must be in valid format</strong> (user@domain.com).</li>
+                <li><strong>Country should be 2-letter code</strong> (US, CA) or full name.</li>
+                <li><strong>Names will be properly capitalized</strong> automatically.</li>
+                <li><strong>All address fields are optional</strong> except email.</li>
               </ul>
             </div>
 
-            <h3>5. Download the validated CSV and import to Shopify</h3>
+            <h3>5. Download the validated CSV and import to Stripe</h3>
             <p>
               Once validation passes, download your clean CSV. You can then:
             </p>
             <ul>
-              <li>Import directly to Shopify via Products → Import</li>
-              <li>Use it with other e-commerce platforms</li>
+              <li>Import directly to Stripe via Dashboard → Customers → Import</li>
+              <li>Use it with payment processing integrations</li>
               <li>Save the mapping.json file to reuse with similar data</li>
             </ul>
 
@@ -178,7 +177,7 @@ export default function ShopifyProductsDocsPage() {
               You can then use our CLI tool for automated processing:
             </p>
             <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-              <code>schemamap map --schema shopify-products --mapping mapping.json &lt; input.csv &gt; output.csv</code>
+              <code>schemamap map --schema stripe-customers --mapping mapping.json &lt; input.csv &gt; output.csv</code>
             </pre>
 
             <h3>Bulk processing</h3>

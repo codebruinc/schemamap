@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import MapperComponent from './MapperComponent';
 
 export const metadata = {
-  title: 'CSV Mapper - SchemaMap',
+  title: 'CSV Mapper — SchemaMap',
   description: 'Map your CSV files to Shopify, Stripe, and other schemas with validation and error checking.',
 };
 

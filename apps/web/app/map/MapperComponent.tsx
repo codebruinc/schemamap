@@ -29,6 +29,50 @@ export default function MapperComponent() {
   const [showLargeFileModal, setShowLargeFileModal] = useState(false);
   const [transforms, setTransforms] = useState<Record<string, string[]>>({});
 
+  // Load sample CSV if specified in URL hash
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('#sample=')) {
+      const sampleType = hash.split('#sample=')[1];
+      const sampleFiles = {
+        'products': '/samples/shopify-products-sample.csv',
+        'inventory': '/samples/shopify-inventory-sample.csv', 
+        'customers': '/samples/stripe-customers-sample.csv'
+      };
+      
+      const sampleFile = sampleFiles[sampleType as keyof typeof sampleFiles];
+      if (sampleFile) {
+        fetch(sampleFile)
+          .then(response => response.text())
+          .then(csvText => {
+            Papa.parse(csvText, {
+              header: true,
+              skipEmptyLines: true,
+              complete: (results) => {
+                const data = results.data as any[];
+                const detectedHeaders = Object.keys(data[0] || {});
+                
+                setHeaders(detectedHeaders);
+                setCsvData(data);
+                
+                // Auto-generate mapping
+                const autoMapping = guessMapping(detectedHeaders, template);
+                setMapping(autoMapping);
+                
+                // Initialize transforms
+                const initialTransforms: Record<string, string[]> = {};
+                template.fields.forEach(field => {
+                  initialTransforms[field.key] = [];
+                });
+                setTransforms(initialTransforms);
+              }
+            });
+          })
+          .catch(console.error);
+      }
+    }
+  }, [template]);
+
   const handleFileUpload = useCallback((file: File) => {
     if (file.size > 100 * 1024 * 1024) { // 100MB limit
       alert('File too large. Maximum size is 100MB.');
@@ -155,6 +199,15 @@ export default function MapperComponent() {
           </p>
         </div>
       </header>
+
+      {/* Privacy Banner */}
+      <div className="bg-blue-50 border-b border-blue-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <p className="text-blue-800 text-sm text-center">
+            🔒 Processing happens in your browser. We do not upload your CSV. Share links include only the mapping, never your data.
+          </p>
+        </div>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!csvFile ? (
@@ -356,18 +409,35 @@ export default function MapperComponent() {
       {/* Large file modal */}
       {showLargeFileModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
+          <div className="bg-white rounded-lg p-6 max-w-lg mx-4">
             <h3 className="text-lg font-semibold mb-4">Large File Detected</h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-4">
               Your file has more than {LARGE_FILE_LIMIT.toLocaleString()} rows. 
-              Processing large files is free if you use the CLI, or you can buy a one-off pass ($5) to process in the browser.
+              For unlimited processing, use our free CLI tool:
             </p>
+            
+            <div className="bg-gray-100 p-4 rounded-lg mb-6">
+              <p className="text-sm font-medium mb-2">Copy this command:</p>
+              <code className="text-sm bg-gray-900 text-gray-100 p-2 rounded block break-all">
+                {getCLICommand()}
+              </code>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(getCLICommand());
+                  alert('CLI command copied to clipboard!');
+                }}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-2"
+              >
+                📋 Copy CLI Command
+              </button>
+            </div>
+            
             <div className="flex gap-3">
               <Link
                 href="/cli"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold flex-1 text-center"
               >
-                Use CLI (Free)
+                Get CLI Tool
               </Link>
               <button
                 onClick={() => setShowLargeFileModal(false)}
@@ -376,6 +446,10 @@ export default function MapperComponent() {
                 Cancel
               </button>
             </div>
+            
+            <p className="text-xs text-gray-500 mt-4">
+              Alternative: Purchase a one-off browser pass ($5) for 24h unlimited processing.
+            </p>
           </div>
         </div>
       )}
