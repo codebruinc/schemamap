@@ -53,7 +53,7 @@ export async function onRequestPost(context) {
       headers: {
         'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Stripe-Version': '2025-07-30',
+        'Stripe-Version': '2024-11-20.acacia',
       },
       body: new URLSearchParams({
         'mode': 'payment',
