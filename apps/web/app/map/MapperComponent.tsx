@@ -89,21 +89,21 @@ export default function MapperComponent() {
   const validateMapping = useCallback(() => {
     if (csvData.length === 0) return;
     
-    const validationResult = validateRows(csvData, template, mapping, transforms);
+    const validationResult = validateRows(csvData, template, mapping);
     setValidation(validationResult);
-  }, [csvData, template, mapping, transforms]);
+  }, [csvData, template, mapping]);
 
   useEffect(() => {
     if (Object.keys(mapping).length > 0) {
       validateMapping();
     }
-  }, [mapping, transforms, validateMapping]);
+  }, [mapping, validateMapping]);
 
   const downloadMappedCSV = useCallback(() => {
     if (csvData.length === 0) return;
     
-    const result = applyMapping(csvData, template, mapping, transforms);
-    const csv = Papa.unparse(result.data);
+    const result = applyMapping(csvData, template, mapping);
+    const csv = Papa.unparse(result.rows);
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -229,10 +229,15 @@ export default function MapperComponent() {
                         <select
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           value={mapping[field.key] || ''}
-                          onChange={(e) => setMapping(prev => ({
-                            ...prev,
-                            [field.key]: e.target.value || undefined
-                          }))}
+                          onChange={(e) => {
+                            const newMapping = { ...mapping };
+                            if (e.target.value) {
+                              newMapping[field.key] = e.target.value;
+                            } else {
+                              delete newMapping[field.key];
+                            }
+                            setMapping(newMapping);
+                          }}
                         >
                           <option value="">Select column...</option>
                           {headers.map(header => (
@@ -286,32 +291,32 @@ export default function MapperComponent() {
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <div className="text-3xl font-bold text-green-600 mb-2">
-                      {(csvData.length - validation.errors.length).toLocaleString()}
+                      {validation.okCount.toLocaleString()}
                     </div>
                     <div className="text-gray-600">Rows OK</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-red-600 mb-2">
-                      {validation.errors.length.toLocaleString()}
+                      {validation.errorCount.toLocaleString()}
                     </div>
                     <div className="text-gray-600">Rows with errors</div>
                   </div>
                 </div>
                 
-                {validation.errors.length > 0 && (
+                {validation.sampleErrors.length > 0 && (
                   <div className="mt-6">
                     <h3 className="font-semibold mb-3">Error Samples:</h3>
                     <div className="space-y-2 max-h-64 overflow-y-auto">
-                      {validation.errors.slice(0, 10).map((error, idx) => (
+                      {validation.sampleErrors.map((error, idx) => (
                         <div key={idx} className="text-sm">
-                          <span className="font-mono text-gray-600">Row {error.row}:</span>
-                          <span className="text-red-600 ml-2">{error.message}</span>
+                          <span className="font-mono text-gray-600">Row {error.row}, {error.field}:</span>
+                          <span className="text-red-600 ml-2">{error.issue}</span>
                         </div>
                       ))}
                     </div>
-                    {validation.errors.length > 10 && (
+                    {validation.errorCount > validation.sampleErrors.length && (
                       <div className="text-sm text-gray-500 mt-2">
-                        ... and {validation.errors.length - 10} more errors
+                        ... and {validation.errorCount - validation.sampleErrors.length} more errors
                       </div>
                     )}
                   </div>
