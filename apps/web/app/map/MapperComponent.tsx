@@ -85,8 +85,12 @@ export default function MapperComponent() {
 
   // Load sample CSV if specified in URL hash
   useEffect(() => {
+    if (!template) return;
+    
     // Wait for client-side hydration and URL to be available
     const checkAndLoadSample = () => {
+      if (typeof window === 'undefined') return;
+      
       const hash = window.location.hash;
       console.log('Checking hash for sample:', hash);
       
@@ -120,14 +124,20 @@ export default function MapperComponent() {
       };
 
       const data = sampleData[sampleType as keyof typeof sampleData];
-      if (data) {
+      if (data && data.length > 0) {
         const detectedHeaders = Object.keys(data[0] || {});
+        console.log('Sample headers detected:', detectedHeaders);
+        
+        // Create a fake file object for the file info display
+        const fakeFile = new File([''], `sample-${sampleType}.csv`, { type: 'text/csv' });
+        setCsvFile(fakeFile);
         
         setHeaders(detectedHeaders);
         setCsvData(data);
         
         // Auto-generate mapping
         const autoMapping = guessMapping(detectedHeaders, template);
+        console.log('Auto-generated mapping:', autoMapping);
         setMapping(autoMapping);
         
         // Initialize transforms
@@ -138,12 +148,15 @@ export default function MapperComponent() {
         setTransforms(initialTransforms);
         
         console.log('Sample data loaded successfully:', sampleType, data.length, 'rows');
+        console.log('Data sample:', data[0]);
         }
       }
     };
 
-    // Try immediately
-    checkAndLoadSample();
+    // Check immediately if window is available
+    if (typeof window !== 'undefined') {
+      checkAndLoadSample();
+    }
     
     // Also listen for hash changes and try again after a small delay for client-side routing
     const handleHashChange = () => {
@@ -151,13 +164,21 @@ export default function MapperComponent() {
       setTimeout(checkAndLoadSample, 100);
     };
     
-    window.addEventListener('hashchange', handleHashChange);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hashchange', handleHashChange);
+    }
     
-    // Also try again after component mounts fully
-    const timeoutId = setTimeout(checkAndLoadSample, 500);
+    // Also try again after component mounts fully to handle SSR/hydration timing
+    const timeoutId = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        checkAndLoadSample();
+      }
+    }, 1000);
     
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('hashchange', handleHashChange);
+      }
       clearTimeout(timeoutId);
     };
   }, [template]);
