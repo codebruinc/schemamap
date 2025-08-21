@@ -85,12 +85,17 @@ export default function MapperComponent() {
 
   // Load sample CSV if specified in URL hash
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.includes('#sample=')) {
-      const sampleType = hash.split('#sample=')[1];
+    // Wait for client-side hydration and URL to be available
+    const checkAndLoadSample = () => {
+      const hash = window.location.hash;
+      console.log('Checking hash for sample:', hash);
       
-      // Inline 5-row samples for instant loading
-      const sampleData = {
+      if (hash.includes('#sample=')) {
+        const sampleType = hash.split('#sample=')[1];
+        console.log('Loading sample type:', sampleType);
+        
+        // Inline 5-row samples for instant loading
+        const sampleData = {
         'products': [
           { 'Product Title': 'Wireless Headphones', 'Handle': 'wireless-headphones', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'WH001', 'Price': '89.99', 'Description': 'Premium wireless headphones', 'Vendor': 'AudioTech', 'Category': 'Electronics', 'Stock': '50', 'Inventory Policy': 'continue' },
           { 'Product Title': 'Coffee Mug', 'Handle': 'coffee-mug-ceramic', 'Status': 'active', 'Published': 'FALSE', 'SKU': 'MUG002', 'Price': '12.50', 'Description': 'Ceramic coffee mug', 'Vendor': 'HomeBrew', 'Category': 'Kitchen', 'Stock': '100', 'Inventory Policy': 'continue' },
@@ -131,8 +136,30 @@ export default function MapperComponent() {
           initialTransforms[field.key] = [];
         });
         setTransforms(initialTransforms);
+        
+        console.log('Sample data loaded successfully:', sampleType, data.length, 'rows');
+        }
       }
-    }
+    };
+
+    // Try immediately
+    checkAndLoadSample();
+    
+    // Also listen for hash changes and try again after a small delay for client-side routing
+    const handleHashChange = () => {
+      console.log('Hash changed, checking for sample...');
+      setTimeout(checkAndLoadSample, 100);
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Also try again after component mounts fully
+    const timeoutId = setTimeout(checkAndLoadSample, 500);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      clearTimeout(timeoutId);
+    };
   }, [template]);
 
   const handleFileUpload = useCallback((file: File) => {
