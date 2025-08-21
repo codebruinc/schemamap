@@ -71,3 +71,6 @@ temp/
 
 # dotenv environment variables file
 .env.test
+
+# Wrangler local development variables
+.dev.vars
