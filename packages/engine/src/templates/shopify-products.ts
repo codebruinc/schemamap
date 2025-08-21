@@ -16,7 +16,7 @@ export const shopifyProductsTemplate: Template = {
       required: true,
       type: 'string',
       transform: ['trim'],
-      synonyms: ['name', 'product title', 'product name'],
+      synonyms: ['name', 'product title', 'product name', 'título', 'titulo', 'nom', 'bezeichnung', 'nome'],
     },
     {
       key: 'handle',
@@ -24,7 +24,7 @@ export const shopifyProductsTemplate: Template = {
       required: true,
       type: 'string',
       transform: ['trim'],
-      synonyms: ['slug', 'url handle', 'product handle'],
+      synonyms: ['slug', 'url handle', 'product handle', 'identificador', 'poignée', 'griff'],
     },
     {
       key: 'status',
@@ -49,7 +49,7 @@ export const shopifyProductsTemplate: Template = {
       required: true,
       type: 'string',
       transform: ['trim', 'upper'],
-      synonyms: ['sku', 'product sku'],
+      synonyms: ['sku', 'product sku', 'código', 'code', 'artikelnummer', 'codice'],
     },
     {
       key: 'variant_price',
@@ -57,7 +57,7 @@ export const shopifyProductsTemplate: Template = {
       required: true,
       type: 'number',
       transform: ['number'],
-      synonyms: ['price', 'cost', 'amount'],
+      synonyms: ['price', 'cost', 'amount', 'precio', 'prix', 'preis', 'prezzo', 'coût', 'costo'],
     },
     {
       key: 'body_html',
@@ -91,7 +91,7 @@ export const shopifyProductsTemplate: Template = {
       label: 'Variant Inventory Qty',
       type: 'number',
       transform: ['number'],
-      synonyms: ['inventory', 'qty', 'stock', 'quantity', 'available'],
+      synonyms: ['inventory', 'qty', 'stock', 'quantity', 'available', 'inventario', 'cantidad', 'quantité', 'bestand', 'menge', 'quantità', 'disponible'],
     },
     {
       key: 'variant_inventory_policy',

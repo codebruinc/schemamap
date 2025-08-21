@@ -170,6 +170,16 @@ export default function HomePage() {
               </ul>
             </div>
             <div>
+              <h4 className="font-semibold text-gray-900 mb-3">Community</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="https://community.shopify.com/c/shopify-discussions/bd-p/shopify-discussions" className="text-gray-600 hover:text-gray-900">Shopify Forum</a></li>
+                <li><a href="https://stackoverflow.com/questions/tagged/shopify-csv" className="text-gray-600 hover:text-gray-900">Stack Overflow</a></li>
+                <li><a href="https://www.reddit.com/r/shopify" className="text-gray-600 hover:text-gray-900">Reddit r/shopify</a></li>
+                <li><a href="https://github.com/codebruinc/schemamap/discussions" className="text-gray-600 hover:text-gray-900">GitHub Discussions</a></li>
+                <li><a href="https://stripe.com/docs/api/customers" className="text-gray-600 hover:text-gray-900">Stripe API Docs</a></li>
+              </ul>
+            </div>
+            <div>
               <h4 className="font-semibold text-gray-900 mb-3">Legal</h4>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/privacy" className="text-gray-600 hover:text-gray-900">Privacy</Link></li>

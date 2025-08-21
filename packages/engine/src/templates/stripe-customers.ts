@@ -16,14 +16,14 @@ export const stripeCustomersTemplate: Template = {
       required: true,
       type: 'string',
       transform: ['trim'],
-      synonyms: ['e-mail', 'email address'],
+      synonyms: ['e-mail', 'email address', 'correo', 'courriel', 'e-mail-adresse', 'indirizzo email'],
     },
     {
       key: 'name',
       label: 'Name',
       type: 'string',
       transform: ['trim'],
-      synonyms: ['full name', 'customer name', 'display name'],
+      synonyms: ['full name', 'customer name', 'display name', 'nombre', 'nom complet', 'vollständiger name', 'nome completo'],
     },
     {
       key: 'description',
@@ -37,14 +37,14 @@ export const stripeCustomersTemplate: Template = {
       label: 'Phone',
       type: 'string',
       transform: ['trim'],
-      synonyms: ['telephone', 'phone number', 'mobile'],
+      synonyms: ['telephone', 'phone number', 'mobile', 'teléfono', 'téléphone', 'telefon', 'telefono', 'móvil', 'portable'],
     },
     {
       key: 'address_line1',
       label: 'Address Line 1',
       type: 'string',
       transform: ['trim'],
-      synonyms: ['addr1', 'address1', 'street address', 'address'],
+      synonyms: ['addr1', 'address1', 'street address', 'address', 'dirección', 'adresse', 'indirizzo', 'calle', 'rue', 'straße'],
     },
     {
       key: 'address_line2',
@@ -58,7 +58,7 @@ export const stripeCustomersTemplate: Template = {
       label: 'City',
       type: 'string',
       transform: ['trim'],
-      synonyms: ['suburb', 'town'],
+      synonyms: ['suburb', 'town', 'ciudad', 'ville', 'stadt', 'città'],
     },
     {
       key: 'state',
@@ -79,7 +79,7 @@ export const stripeCustomersTemplate: Template = {
       label: 'Country',
       type: 'string',
       transform: ['trim', 'upper'],
-      synonyms: ['country code', 'nation'],
+      synonyms: ['country code', 'nation', 'país', 'pays', 'land', 'paese', 'nazione'],
     },
   ],
 };

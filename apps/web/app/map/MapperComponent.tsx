@@ -241,6 +241,26 @@ export default function MapperComponent() {
     URL.revokeObjectURL(url);
   }, [schema, mapping, transforms]);
 
+  const downloadErrorReport = useCallback(() => {
+    if (!validation || validation.sampleErrors.length === 0) return;
+    
+    const errorData = validation.sampleErrors.map(error => ({
+      'Row': error.row,
+      'Field': error.field,
+      'Issue': error.issue,
+      'Value': error.value || ''
+    }));
+    
+    const csv = Papa.unparse(errorData);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${schema}-errors.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [validation, schema]);
+
   const getCLICommand = useCallback(() => {
     return `schemamap map --schema ${schema} --mapping mapping.json < input.csv > output.csv`;
   }, [schema]);
@@ -446,7 +466,15 @@ export default function MapperComponent() {
                 
                 {validation.sampleErrors.length > 0 && (
                   <div className="mt-6">
-                    <h3 className="font-semibold mb-3">Error Samples:</h3>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold">Error Samples:</h3>
+                      <button
+                        onClick={downloadErrorReport}
+                        className="text-sm text-red-600 hover:text-red-800 font-medium"
+                      >
+                        📥 Download Error Report (.csv)
+                      </button>
+                    </div>
                     <div className="space-y-2 max-h-64 overflow-y-auto">
                       {validation.sampleErrors.map((error, idx) => (
                         <div key={idx} className="text-sm">
@@ -490,7 +518,14 @@ export default function MapperComponent() {
 
             {/* Export buttons */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Export</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Export & Actions</h2>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full font-medium">
+                    🔒 Files never leave your device
+                  </span>
+                </div>
+              </div>
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={downloadMappedCSV}
@@ -523,40 +558,40 @@ export default function MapperComponent() {
           <div className="bg-white rounded-lg p-6 max-w-lg mx-4">
             <h3 className="text-lg font-semibold mb-4">Large File Detected</h3>
             <p className="text-gray-600 mb-4">
-              Your file has more than {LARGE_FILE_LIMIT.toLocaleString()} rows. 
-              Upgrade to Large File Pass for up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows, or use our free CLI tool:
+              Your file has more than {LARGE_FILE_LIMIT.toLocaleString()} rows. Choose your processing option:
             </p>
             
-            {/* Upgrade Option */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <h4 className="font-semibold text-blue-900 mb-2">🚀 Large File Pass - $5</h4>
-              <ul className="text-sm text-blue-800 mb-3 space-y-1">
-                <li>• Process up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows</li>
-                <li>• Valid for 24 hours on this device</li>
-                <li>• Instant activation via Stripe</li>
-              </ul>
-              <Link
-                href="/pricing"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold text-sm inline-block transition-colors"
-              >
-                Upgrade Now
-              </Link>
-            </div>
-            
-            <div className="bg-gray-100 p-4 rounded-lg mb-6">
-              <p className="text-sm font-medium mb-2">Copy this command:</p>
-              <code className="text-sm bg-gray-900 text-gray-100 p-2 rounded block break-all">
+            {/* Free Option First */}
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+              <h4 className="font-semibold text-green-900 mb-2">🆓 Free: Run this CLI command (no size limit)</h4>
+              <div className="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono overflow-x-auto mb-2">
                 {getCLICommand()}
-              </code>
+              </div>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(getCLICommand());
                   alert('CLI command copied to clipboard!');
                 }}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-2"
+                className="text-green-700 hover:text-green-900 text-sm font-medium"
               >
-                📋 Copy CLI Command
+                📋 Copy Command
               </button>
+            </div>
+            
+            {/* Paid Option */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <h4 className="font-semibold text-blue-900 mb-2">💳 Or web pass $5 (24h on this device)</h4>
+              <ul className="text-sm text-blue-800 mb-3 space-y-1">
+                <li>• Process up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows in browser</li>
+                <li>• No CLI needed</li>
+                <li>• Instant activation</li>
+              </ul>
+              <Link
+                href="/pricing"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold text-sm inline-block transition-colors"
+              >
+                Get Web Pass
+              </Link>
             </div>
             
             <div className="flex gap-3">
