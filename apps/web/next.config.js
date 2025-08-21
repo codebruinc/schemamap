@@ -11,6 +11,10 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  // Force all pages to be dynamic - no static generation
+  generateStaticParams: () => [],
+  // Skip static optimization completely
+  poweredByHeader: false,
 }
 
 module.exports = nextConfig
