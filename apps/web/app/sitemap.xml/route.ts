@@ -24,6 +24,11 @@ export async function GET() {
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>${baseUrl}/docs</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>${baseUrl}/docs/shopify-products-csv-mapper</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
