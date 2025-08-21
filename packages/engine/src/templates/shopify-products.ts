@@ -32,6 +32,7 @@ export const shopifyProductsTemplate: Template = {
       required: true,
       type: 'enum',
       enumValues: ['active', 'draft', 'archived'],
+      transform: ['trim', 'lower'],
       synonyms: ['state', 'product status'],
     },
     {
@@ -82,6 +83,7 @@ export const shopifyProductsTemplate: Template = {
       key: 'tags',
       label: 'Tags',
       type: 'string',
+      transform: ['trim'],
       synonyms: ['keywords', 'labels'],
     },
     {
@@ -96,12 +98,14 @@ export const shopifyProductsTemplate: Template = {
       label: 'Variant Inventory Policy',
       type: 'enum',
       enumValues: ['deny', 'continue'],
+      transform: ['trim', 'lower'],
       synonyms: ['backorders', 'inventory policy', 'out of stock policy'],
     },
     {
       key: 'image_src',
       label: 'Image Src',
       type: 'string',
+      transform: ['trim'],
       synonyms: ['image url', 'photo', 'image', 'picture'],
     },
   ],

@@ -10,7 +10,8 @@ import {
   applyMapping,
   Template,
   GuessMappingResult,
-  ValidationResult 
+  ValidationResult,
+  BusinessWarning 
 } from '@schemamap/engine';
 import Link from 'next/link';
 
@@ -38,25 +39,25 @@ export default function MapperComponent() {
       // Inline 5-row samples for instant loading
       const sampleData = {
         'products': [
-          { 'Product Title': 'Wireless Headphones', 'Handle': 'wireless-headphones', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'WH001', 'Price': '89.99', 'Description': 'Premium wireless headphones', 'Vendor': 'AudioTech', 'Category': 'Electronics', 'Stock': '50' },
-          { 'Product Title': 'Coffee Mug', 'Handle': 'coffee-mug-ceramic', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'MUG002', 'Price': '12.50', 'Description': 'Ceramic coffee mug', 'Vendor': 'HomeBrew', 'Category': 'Kitchen', 'Stock': '100' },
-          { 'Product Title': 'Yoga Mat', 'Handle': 'yoga-mat-premium', 'Status': 'draft', 'Published': 'FALSE', 'SKU': 'YM003', 'Price': '45.00', 'Description': 'Premium yoga mat', 'Vendor': 'FitLife', 'Category': 'Sports', 'Stock': '25' },
-          { 'Product Title': 'Notebook Set', 'Handle': 'notebook-set-leather', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'NB004', 'Price': '24.99', 'Description': 'Leather notebook set', 'Vendor': 'PaperCraft', 'Category': 'Stationery', 'Stock': '75' },
-          { 'Product Title': 'Phone Case', 'Handle': 'phone-case-clear', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'PC005', 'Price': '15.00', 'Description': 'Clear protective case', 'Vendor': 'TechGuard', 'Category': 'Accessories', 'Stock': '200' }
+          { 'Product Title': 'Wireless Headphones', 'Handle': 'wireless-headphones', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'WH001', 'Price': '89.99', 'Description': 'Premium wireless headphones', 'Vendor': 'AudioTech', 'Category': 'Electronics', 'Stock': '50', 'Inventory Policy': 'continue' },
+          { 'Product Title': 'Coffee Mug', 'Handle': 'coffee-mug-ceramic', 'Status': 'active', 'Published': 'FALSE', 'SKU': 'MUG002', 'Price': '12.50', 'Description': 'Ceramic coffee mug', 'Vendor': 'HomeBrew', 'Category': 'Kitchen', 'Stock': '100', 'Inventory Policy': 'continue' },
+          { 'Product Title': 'Yoga Mat', 'Handle': 'yoga-mat-premium', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'YM003', 'Price': '0.00', 'Description': 'Premium yoga mat', 'Vendor': 'FitLife', 'Category': 'Sports', 'Stock': '25', 'Inventory Policy': 'continue' },
+          { 'Product Title': 'Notebook Set', 'Handle': 'notebook-set-leather', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'NB004', 'Price': '24.99', 'Description': 'Leather notebook set', 'Vendor': 'PaperCraft', 'Category': 'Stationery', 'Stock': '0', 'Inventory Policy': 'deny' },
+          { 'Product Title': 'Phone Case', 'Handle': 'phone-case-clear', 'Status': 'active', 'Published': 'TRUE', 'SKU': 'PC005', 'Price': '15.00', 'Description': 'Clear protective case', 'Vendor': 'TechGuard', 'Category': 'Accessories', 'Stock': '200', 'Inventory Policy': 'continue' }
         ],
         'inventory': [
           { 'SKU': 'WH001', 'Available Qty': '45', 'Location': 'Main Warehouse', 'Unit Cost': '35.00' },
-          { 'SKU': 'MUG002', 'Available Qty': '95', 'Location': 'Main Warehouse', 'Unit Cost': '4.50' },
+          { 'SKU': 'MUG002', 'Available Qty': '-5', 'Location': 'Store A', 'Unit Cost': '4.50' },
           { 'SKU': 'YM003', 'Available Qty': '20', 'Location': 'Main Warehouse', 'Unit Cost': '18.00' },
-          { 'SKU': 'NB004', 'Available Qty': '70', 'Location': 'Store Front', 'Unit Cost': '8.99' },
-          { 'SKU': 'PC005', 'Available Qty': '180', 'Location': 'Main Warehouse', 'Unit Cost': '5.50' }
+          { 'SKU': 'NB004', 'Available Qty': '0', 'Location': 'Store B', 'Unit Cost': '8.99' },
+          { 'SKU': 'PC005', 'Available Qty': '180', 'Location': 'Distribution Center', 'Unit Cost': '5.50' }
         ],
         'customers': [
-          { 'Email': 'john.smith@example.com', 'Full Name': 'John Smith', 'Phone': '+1-555-0123', 'Street Address': '123 Main St', 'City': 'New York', 'State': 'NY', 'ZIP': '10001', 'Country': 'US' },
-          { 'Email': 'sarah.johnson@example.com', 'Full Name': 'Sarah Johnson', 'Phone': '+1-555-0124', 'Street Address': '456 Oak Ave', 'City': 'Los Angeles', 'State': 'CA', 'ZIP': '90210', 'Country': 'US' },
-          { 'Email': 'mike.davis@example.com', 'Full Name': 'Mike Davis', 'Phone': '+1-555-0125', 'Street Address': '789 Pine St', 'City': 'Chicago', 'State': 'IL', 'ZIP': '60601', 'Country': 'US' },
-          { 'Email': 'emma.wilson@example.com', 'Full Name': 'Emma Wilson', 'Phone': '+1-555-0126', 'Street Address': '321 Elm Dr', 'City': 'Houston', 'State': 'TX', 'ZIP': '77001', 'Country': 'US' },
-          { 'Email': 'alex.brown@example.com', 'Full Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Street Address': '654 Maple Ln', 'City': 'Phoenix', 'State': 'AZ', 'ZIP': '85001', 'Country': 'US' }
+          { 'Email': 'john.smith@example.com', 'Full Name': 'John Smith', 'Phone': '+1-555-0123', 'Street Address': '123 Main St', 'Apt': 'Unit 4B', 'City': 'New York', 'State': 'NY', 'ZIP': '10001', 'Country': 'US', 'Notes': 'VIP Customer' },
+          { 'Email': 'sarah.doe@company.co.uk', 'Full Name': 'Sarah Doe', 'Phone': '+44-20-7946-0958', 'Street Address': '42 Baker Street', 'City': 'London', 'State': 'England', 'ZIP': 'NW1 6XE', 'Country': 'GB', 'Notes': 'Corporate account' },
+          { 'Email': 'mike.davis@tech.ca', 'Full Name': 'Mike Davis', 'Phone': '+1-416-555-0125', 'Street Address': '789 Pine St', 'City': 'Toronto', 'State': 'ON', 'ZIP': 'M5H 2N2', 'Country': 'CA', 'Notes': '' },
+          { 'Email': 'emma@startup.io', 'Full Name': 'Emma Chen', 'Phone': '+1-415-555-0199', 'Street Address': '1 Hacker Way', 'City': 'Menlo Park', 'State': 'CA', 'ZIP': '94301', 'Country': 'US', 'Notes': 'Bulk orders' },
+          { 'Email': 'invalid-email-format', 'Full Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Street Address': '654 maple ln', 'City': 'phoenix', 'State': 'az', 'ZIP': '85001', 'Country': 'us', 'Notes': 'Data needs cleanup' }
         ]
       };
 
@@ -201,8 +202,14 @@ export default function MapperComponent() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">{template.title} Mapper</h1>
-          <p className="text-gray-600 mt-2">
+          <div className="flex items-center gap-4 mb-4">
+            <Link href="/" className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
+              SchemaMap
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-xl text-gray-600">{template.title} Mapper</span>
+          </div>
+          <p className="text-gray-600">
             Map your CSV to {template.title} format with validation
           </p>
         </div>
@@ -380,6 +387,29 @@ export default function MapperComponent() {
                         ... and {validation.errorCount - validation.sampleErrors.length} more errors
                       </div>
                     )}
+                  </div>
+                )}
+
+                {validation.businessWarnings && validation.businessWarnings.length > 0 && (
+                  <div className="mt-6">
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <h3 className="font-semibold text-yellow-900 mb-3 flex items-center gap-2">
+                        ⚠️ Business Logic Warnings
+                      </h3>
+                      <div className="space-y-2 max-h-64 overflow-y-auto">
+                        {validation.businessWarnings.map((warning, idx) => (
+                          <div key={idx} className="text-sm text-yellow-800">
+                            <span className="font-mono text-yellow-700">Row {warning.row}:</span>
+                            <span className="ml-2">{warning.message}</span>
+                          </div>
+                        ))}
+                      </div>
+                      {validation.businessWarnings.length === 10 && (
+                        <div className="text-sm text-yellow-600 mt-2">
+                          Showing first 10 warnings only
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

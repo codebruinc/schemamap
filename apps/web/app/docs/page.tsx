@@ -41,7 +41,13 @@ export default function DocsPage() {
             <span>/</span>
             <span className="text-gray-900">Documentation</span>
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900">Documentation</h1>
+          <div className="flex items-center gap-4 mb-4">
+            <Link href="/" className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
+              SchemaMap
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-xl text-gray-600">Documentation</span>
+          </div>
           <p className="text-gray-600 mt-2">
             Step-by-step guides for mapping your CSV files to Shopify and Stripe schemas
           </p>

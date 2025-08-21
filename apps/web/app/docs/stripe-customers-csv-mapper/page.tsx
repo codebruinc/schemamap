@@ -50,9 +50,13 @@ export default function StripeCustomersDocsPage() {
               <span>/</span>
               <span className="text-gray-900">Stripe Customers CSV Mapper</span>
             </nav>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Stripe Customers CSV Mapper — SchemaMap
-            </h1>
+            <div className="flex items-center gap-4 mb-4">
+              <Link href="/" className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
+                SchemaMap
+              </Link>
+              <span className="text-gray-400">/</span>
+              <span className="text-xl text-gray-600">Stripe Customers CSV Mapper</span>
+            </div>
           </div>
         </header>
 
