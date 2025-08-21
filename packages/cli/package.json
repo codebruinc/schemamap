@@ -13,7 +13,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@schemamap/engine": "workspace:*",
+    "@schemamap/engine": "file:../engine",
     "commander": "^11.1.0",
     "papaparse": "^5.4.1"
   },
