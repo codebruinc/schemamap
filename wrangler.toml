@@ -1,0 +1,17 @@
+name = "schemamap"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+workers_dev = true
+
+[site]
+bucket = "./apps/web/out"
+
+[build]
+command = "npm install && npm run build"
+
+[env.production]
+workers_dev = false
+routes = [
+  { pattern = "schemamap.com", custom_domain = true },
+  { pattern = "www.schemamap.com", custom_domain = true }
+]
