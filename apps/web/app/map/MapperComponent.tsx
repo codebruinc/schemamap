@@ -16,6 +16,42 @@ import {
 import Link from 'next/link';
 
 const LARGE_FILE_LIMIT = 2000;
+const PREMIUM_FILE_LIMIT = 250000;
+
+// Check if user has valid large file pass
+function hasValidLargeFilePass(): boolean {
+  if (typeof window === 'undefined') return false;
+  
+  const token = localStorage.getItem('schemamap_large_file_pass');
+  if (!token) return false;
+  
+  try {
+    const parsed = JSON.parse(token);
+    return Date.now() < parsed.expires;
+  } catch {
+    return false;
+  }
+}
+
+function getLargeFilePassInfo() {
+  if (typeof window === 'undefined') return null;
+  
+  const token = localStorage.getItem('schemamap_large_file_pass');
+  if (!token) return null;
+  
+  try {
+    const parsed = JSON.parse(token);
+    const remaining = Math.max(0, parsed.expires - Date.now());
+    const hours = Math.ceil(remaining / (1000 * 60 * 60));
+    return {
+      ...parsed,
+      hoursRemaining: hours,
+      isValid: remaining > 0
+    };
+  } catch {
+    return null;
+  }
+}
 
 export default function MapperComponent() {
   const searchParams = useSearchParams();
@@ -29,6 +65,23 @@ export default function MapperComponent() {
   const [validation, setValidation] = useState<ValidationResult | null>(null);
   const [showLargeFileModal, setShowLargeFileModal] = useState(false);
   const [transforms, setTransforms] = useState<Record<string, string[]>>({});
+  const [hasLargeFilePass, setHasLargeFilePass] = useState(false);
+  const [largeFilePassInfo, setLargeFilePassInfo] = useState<any>(null);
+
+  // Check for large file pass on mount and interval
+  useEffect(() => {
+    const checkPass = () => {
+      const isValid = hasValidLargeFilePass();
+      const info = getLargeFilePassInfo();
+      setHasLargeFilePass(isValid);
+      setLargeFilePassInfo(info);
+    };
+
+    checkPass();
+    const interval = setInterval(checkPass, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Load sample CSV if specified in URL hash
   useEffect(() => {
@@ -88,10 +141,12 @@ export default function MapperComponent() {
       return;
     }
 
+    const effectiveLimit = hasLargeFilePass ? PREMIUM_FILE_LIMIT : LARGE_FILE_LIMIT;
+    
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
-      preview: LARGE_FILE_LIMIT + 1, // Parse one extra to detect if it's large
+      preview: effectiveLimit + 1, // Parse one extra to detect if it's large
       complete: (results) => {
         if (results.errors.length > 0) {
           console.warn('CSV parsing warnings:', results.errors);
@@ -100,8 +155,13 @@ export default function MapperComponent() {
         const data = results.data as any[];
         const detectedHeaders = Object.keys(data[0] || {});
         
-        if (data.length > LARGE_FILE_LIMIT) {
-          setShowLargeFileModal(true);
+        if (data.length > effectiveLimit) {
+          if (hasLargeFilePass) {
+            // Even premium users have limits
+            alert(`File too large. Premium limit is ${PREMIUM_FILE_LIMIT.toLocaleString()} rows. Use the CLI for unlimited processing.`);
+          } else {
+            setShowLargeFileModal(true);
+          }
           return;
         }
 
@@ -214,6 +274,19 @@ export default function MapperComponent() {
           </p>
         </div>
       </header>
+
+      {/* Premium Banner */}
+      {hasLargeFilePass && largeFilePassInfo && (
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 border-b border-green-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex items-center justify-center gap-4 text-sm">
+              <span className="text-green-700 font-semibold">⭐ Large File Pass Active</span>
+              <span className="text-green-600">Up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows</span>
+              <span className="text-green-600">{largeFilePassInfo.hoursRemaining}h remaining</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Privacy Banner */}
       <div className="bg-blue-50 border-b border-blue-200">
@@ -451,8 +524,24 @@ export default function MapperComponent() {
             <h3 className="text-lg font-semibold mb-4">Large File Detected</h3>
             <p className="text-gray-600 mb-4">
               Your file has more than {LARGE_FILE_LIMIT.toLocaleString()} rows. 
-              For unlimited processing, use our free CLI tool:
+              Upgrade to Large File Pass for up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows, or use our free CLI tool:
             </p>
+            
+            {/* Upgrade Option */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <h4 className="font-semibold text-blue-900 mb-2">🚀 Large File Pass - $5</h4>
+              <ul className="text-sm text-blue-800 mb-3 space-y-1">
+                <li>• Process up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows</li>
+                <li>• Valid for 24 hours on this device</li>
+                <li>• Instant activation via Stripe</li>
+              </ul>
+              <Link
+                href="/pricing"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold text-sm inline-block transition-colors"
+              >
+                Upgrade Now
+              </Link>
+            </div>
             
             <div className="bg-gray-100 p-4 rounded-lg mb-6">
               <p className="text-sm font-medium mb-2">Copy this command:</p>

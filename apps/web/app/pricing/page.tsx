@@ -1,9 +1,48 @@
 'use client';
 
-import { CheckCircle, Code } from 'lucide-react';
+import { CheckCircle, Code, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function PricingPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Show cancellation message if redirected from cancelled payment
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cancelled = urlParams.get('canceled');
+    
+    if (cancelled === 'true') {
+      // Clear the URL parameter
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }
+
+  const handleBuyLargeFilePass = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const { url } = await response.json();
+      window.location.href = url;
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to start checkout process. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
@@ -100,10 +139,18 @@ export default function PricingPage() {
             </ul>
             
             <button 
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-              onClick={() => alert('Large file payment coming soon! Use the CLI for unlimited processing.')}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleBuyLargeFilePass}
+              disabled={isLoading}
             >
-              Buy Large File Pass
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                'Buy Large File Pass'
+              )}
             </button>
           </div>
 
