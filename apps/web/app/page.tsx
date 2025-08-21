@@ -179,7 +179,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t mt-8 pt-8 text-center text-sm text-gray-600">
-            © 2024 SchemaMap. Released under MIT License.
+            <div className="mb-2">
+              Built by <a href="https://codebru.com" className="text-blue-600 hover:text-blue-800 hover:underline" target="_blank" rel="noopener noreferrer">codebru.com</a>
+            </div>
+            <div>
+              © 2025 SchemaMap. Released under MIT License.
+            </div>
           </div>
         </div>
       </footer>
