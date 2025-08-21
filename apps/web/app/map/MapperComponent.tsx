@@ -115,11 +115,11 @@ export default function MapperComponent() {
           { 'SKU': 'PC005', 'Available Qty': '180', 'Location': 'Distribution Center', 'Unit Cost': '5.50' }
         ],
         'customers': [
-          { 'Email': 'john.smith@example.com', 'Full Name': 'John Smith', 'Phone': '+1-555-0123', 'Street Address': '123 Main St', 'Apt': 'Unit 4B', 'City': 'New York', 'State': 'NY', 'ZIP': '10001', 'Country': 'US', 'Notes': 'VIP Customer' },
-          { 'Email': 'sarah.doe@company.co.uk', 'Full Name': 'Sarah Doe', 'Phone': '+44-20-7946-0958', 'Street Address': '42 Baker Street', 'City': 'London', 'State': 'England', 'ZIP': 'NW1 6XE', 'Country': 'GB', 'Notes': 'Corporate account' },
-          { 'Email': 'mike.davis@tech.ca', 'Full Name': 'Mike Davis', 'Phone': '+1-416-555-0125', 'Street Address': '789 Pine St', 'City': 'Toronto', 'State': 'ON', 'ZIP': 'M5H 2N2', 'Country': 'CA', 'Notes': '' },
-          { 'Email': 'emma@startup.io', 'Full Name': 'Emma Chen', 'Phone': '+1-415-555-0199', 'Street Address': '1 Hacker Way', 'City': 'Menlo Park', 'State': 'CA', 'ZIP': '94301', 'Country': 'US', 'Notes': 'Bulk orders' },
-          { 'Email': 'invalid-email-format', 'Full Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Street Address': '654 maple ln', 'City': 'phoenix', 'State': 'az', 'ZIP': '85001', 'Country': 'us', 'Notes': 'Data needs cleanup' }
+          { 'Email': 'john.smith@example.com', 'Name': 'John Smith', 'Phone': '+1-555-0123', 'Address Line 1': '123 Main St', 'Address Line 2': 'Unit 4B', 'City': 'New York', 'State': 'NY', 'Postal Code': '10001', 'Country': 'US', 'Description': 'VIP Customer' },
+          { 'Email': 'sarah.doe@company.co.uk', 'Name': 'Sarah Doe', 'Phone': '+44-20-7946-0958', 'Address Line 1': '42 Baker Street', 'Address Line 2': '', 'City': 'London', 'State': 'England', 'Postal Code': 'NW1 6XE', 'Country': 'GB', 'Description': 'Corporate account' },
+          { 'Email': 'mike.davis@tech.ca', 'Name': 'Mike Davis', 'Phone': '+1-416-555-0125', 'Address Line 1': '789 Pine St', 'Address Line 2': '', 'City': 'Toronto', 'State': 'ON', 'Postal Code': 'M5H 2N2', 'Country': 'CA', 'Description': '' },
+          { 'Email': 'emma@startup.io', 'Name': 'Emma Chen', 'Phone': '+1-415-555-0199', 'Address Line 1': '1 Hacker Way', 'Address Line 2': '', 'City': 'Menlo Park', 'State': 'CA', 'Postal Code': '94301', 'Country': 'US', 'Description': 'Bulk orders' },
+          { 'Email': 'invalid-email-format', 'Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Address Line 1': '654 maple ln', 'Address Line 2': '', 'City': 'phoenix', 'State': 'az', 'Postal Code': '85001', 'Country': 'us', 'Description': 'Data needs cleanup' }
         ]
       };
 
