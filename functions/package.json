@@ -1,8 +1,0 @@
-{
-  "name": "schemamap-functions",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "stripe": "^18.4.0"
-  }
-}

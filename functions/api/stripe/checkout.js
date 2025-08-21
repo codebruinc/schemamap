@@ -1,5 +1,3 @@
-import Stripe from 'stripe';
-
 export async function onRequestPost(context) {
   const { request, env } = context;
   
@@ -46,31 +44,48 @@ export async function onRequestPost(context) {
       );
     }
 
-    console.log('Initializing Stripe client');
-    // Initialize Stripe with proper configuration for Cloudflare
-    const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
-      httpClient: Stripe.createFetchHttpClient(),
-    });
-
-    console.log('Creating checkout session');
+    console.log('Creating Stripe checkout session with direct API call');
     const origin = new URL(request.url).origin;
     
-    // Create checkout session
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items: [
-        {
-          price: env.STRIPE_PRICE_ID,
-          quantity: 1,
-        },
-      ],
-      success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/pricing?canceled=true`,
-      metadata: {
-        product: 'large_file_pass',
+    // Create checkout session using direct Stripe API call
+    const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Stripe-Version': '2025-07-30',
       },
+      body: new URLSearchParams({
+        'mode': 'payment',
+        'line_items[0][price]': env.STRIPE_PRICE_ID,
+        'line_items[0][quantity]': '1',
+        'success_url': `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+        'cancel_url': `${origin}/pricing?canceled=true`,
+        'metadata[product]': 'large_file_pass',
+      }),
     });
 
+    console.log('Stripe API response status:', stripeResponse.status);
+
+    if (!stripeResponse.ok) {
+      const errorText = await stripeResponse.text();
+      console.error('Stripe API error:', errorText);
+      console.error('Response headers:', [...stripeResponse.headers]);
+      
+      return new Response(
+        JSON.stringify({ 
+          error: 'Failed to create checkout session',
+          details: `Stripe API returned ${stripeResponse.status}`,
+          stripeError: errorText
+        }),
+        { 
+          status: 500, 
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    const session = await stripeResponse.json();
     console.log('Checkout session created successfully:', session.id);
     
     return new Response(
@@ -84,9 +99,8 @@ export async function onRequestPost(context) {
     console.error('Stripe checkout error:', error);
     console.error('Error details:', {
       message: error.message,
-      type: error.type,
-      code: error.code,
-      statusCode: error.statusCode
+      name: error.name,
+      stack: error.stack
     });
     
     return new Response(
