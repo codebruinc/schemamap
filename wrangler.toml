@@ -1,15 +1,6 @@
 name = "schemamap"
-main = "src/index.ts"
 compatibility_date = "2024-01-01"
-workers_dev = true
-node_compat = true
-
-# Static assets configuration
-[site]
-bucket = "./apps/web/out"
+pages_build_output_dir = "apps/web/.next"
 
 [build]
 command = "npm run build:cf"
-
-[env.production]
-workers_dev = false
