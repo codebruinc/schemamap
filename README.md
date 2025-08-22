@@ -2,10 +2,10 @@
 
 Map messy CSVs to Shopify/Stripe in 30 seconds. No login. Runs in your browser.
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![CI](https://github.com/codebruinc/schemamap/workflows/ci/badge.svg)](https://github.com/codebruinc/schemamap/actions)
-[![npm version](https://img.shields.io/npm/v/@schemamap/cli.svg)](https://www.npmjs.com/package/@schemamap/cli)
-[![Open in Browser](https://img.shields.io/badge/Open%20in%20Browser-schemamap.app-blue?style=flat&logo=googlechrome)](https://schemamap.app)
+[![MIT License](https://img.shields.io/github/license/codebruinc/schemamap)](LICENSE)
+[![CI](https://github.com/codebruinc/schemamap/actions/workflows/ci.yml/badge.svg)](https://github.com/codebruinc/schemamap/actions)
+[![npm](https://img.shields.io/npm/v/@schemamap/cli)](https://www.npmjs.com/package/@schemamap/cli)
+[![Open in Browser](https://img.shields.io/badge/open-schemamap.app-2ea44f)](https://schemamap.app)
 
 ## 🚀 Quick Start
 

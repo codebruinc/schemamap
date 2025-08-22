@@ -1,89 +1,14 @@
-name: Template Request
-description: Request a new CSV mapping template
-title: "[Template]: "
-labels: ["enhancement", "template"]
+name: "Template request"
+description: "Ask for a new target schema"
+labels: ["template-request","help wanted"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for suggesting a new template! New templates help expand SchemaMap's capabilities.
-
   - type: input
-    id: service
-    attributes:
-      label: Service/Platform
-      description: What service or platform should this template support?
-      placeholder: e.g., WooCommerce, BigCommerce, Mailchimp
-    validations:
-      required: true
-
-  - type: input
-    id: template_name
-    attributes:
-      label: Template Name
-      description: Proposed name for the template
-      placeholder: e.g., woocommerce-products, mailchimp-subscribers
-    validations:
-      required: true
-
+    id: target
+    attributes: 
+      label: "Target platform"
+      placeholder: "e.g., WooCommerce Products"
   - type: textarea
-    id: description
-    attributes:
-      label: Description
-      description: What would this template be used for?
-      placeholder: Describe the use case...
-    validations:
-      required: true
-
-  - type: textarea
-    id: required_fields
-    attributes:
-      label: Required Fields
-      description: List the required fields for this template
-      placeholder: |
-        - Field1 (description)
-        - Field2 (description)
-        - Field3 (description)
-    validations:
-      required: true
-
-  - type: textarea
-    id: optional_fields
-    attributes:
-      label: Optional Fields
-      description: List the optional fields for this template
-      placeholder: |
-        - Field1 (description)
-        - Field2 (description)
-
-  - type: textarea
-    id: sample_csv
-    attributes:
-      label: Sample CSV
-      description: Provide a sample CSV that should work with this template
-      placeholder: |
-        Header1,Header2,Header3
-        value1,value2,value3
-        ...
-
-  - type: textarea
-    id: documentation
-    attributes:
-      label: Documentation Links
-      description: Links to official API docs or CSV format specifications
-      placeholder: |
-        - Official API docs: https://...
-        - CSV format guide: https://...
-
-  - type: input
-    id: priority
-    attributes:
-      label: Priority/Popularity
-      description: How popular is this service? (helps us prioritize)
-      placeholder: e.g., "Very popular", "Niche but growing", "Enterprise focused"
-
-  - type: textarea
-    id: additional
-    attributes:
-      label: Additional Context
-      description: Any other context about this template request
+    id: spec
+    attributes: 
+      label: "Spec links"
+      description: "Docs or example CSV"

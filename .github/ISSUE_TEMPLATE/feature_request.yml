@@ -1,0 +1,8 @@
+name: "Feature request"
+description: "Small improvements to mapping/validation/UX"
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: "What and why?"
