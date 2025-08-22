@@ -1,5 +1,5 @@
 {
-  "name": "@schemamap/cli",
+  "name": "schemamap-cli",
   "version": "1.0.0",
   "description": "CLI for SchemaMap CSV mapping",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@schemamap/engine": "file:../engine",
+    "schemamap-engine": "^1.0.0",
     "commander": "^11.1.0",
     "papaparse": "^5.4.1"
   },

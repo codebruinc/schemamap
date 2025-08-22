@@ -1,5 +1,5 @@
 {
-  "name": "@schemamap/engine",
+  "name": "schemamap-engine",
   "version": "1.0.0",
   "description": "Core CSV mapping engine for SchemaMap",
   "main": "dist/index.js",

@@ -4,7 +4,7 @@ Map messy CSVs to Shopify/Stripe in 30 seconds. No login. Runs in your browser.
 
 [![MIT License](https://img.shields.io/github/license/codebruinc/schemamap)](LICENSE)
 [![CI](https://github.com/codebruinc/schemamap/actions/workflows/ci.yml/badge.svg)](https://github.com/codebruinc/schemamap/actions)
-[![npm](https://img.shields.io/npm/v/@schemamap/cli)](https://www.npmjs.com/package/@schemamap/cli)
+[![npm](https://img.shields.io/npm/v/schemamap-cli)](https://www.npmjs.com/package/schemamap-cli)
 [![Open in Browser](https://img.shields.io/badge/open-schemamap.app-2ea44f)](https://schemamap.app)
 
 ## 🚀 Quick Start
@@ -23,7 +23,7 @@ Map messy CSVs to Shopify/Stripe in 30 seconds. No login. Runs in your browser.
 
 **CLI:**
 ```bash
-npm install -g @schemamap/cli
+npm install -g schemamap-cli
 schemamap --help
 ```
 
