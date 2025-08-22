@@ -117,7 +117,7 @@ export default function DocsPage() {
               <h3 className="font-medium text-blue-900 mb-2">Support</h3>
               <ul className="space-y-1 text-blue-800">
                 <li><Link href="https://github.com/codebruinc/schemamap" className="hover:underline">GitHub Repository</Link></li>
-                <li><Link href="https://github.com/codebruinc/schemamap/issues" className="hover:underline">Report Issues</Link></li>
+                <li><a href="https://www.reddit.com/r/shopify/comments/1l9dlb1/problems_with_product_import_csv/" className="hover:underline" target="_blank" rel="noopener noreferrer">Community Help</a></li>
                 <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
               </ul>
             </div>

@@ -200,10 +200,25 @@ export default function ShopifyInventoryDocsPage() {
 
             <h2>Need help?</h2>
             <p>
-              <Link href="https://github.com/codebruinc/schemamap/issues" className="text-blue-600 hover:underline">
-                Open an issue on GitHub
-              </Link> if you encounter problems or need support for additional CSV formats.
+              Check out these community discussions about Shopify CSV import issues:
             </p>
+            <ul>
+              <li>
+                <a href="https://www.reddit.com/r/shopify/comments/1l9dlb1/problems_with_product_import_csv/" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Reddit: Problems with Product Import CSV
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/questions/75590616/cannot-import-csv-product-list-to-shopify" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Stack Overflow: Cannot import .CSV product list to Shopify
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/questions/61882068/shopify-products-import-csv-validation-error-invalid-file" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Stack Overflow: Shopify Products Import CSV Validation error invalid file
+                </a>
+              </li>
+            </ul>
           </div>
         </main>
       </div>
