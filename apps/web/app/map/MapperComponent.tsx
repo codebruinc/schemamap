@@ -641,6 +641,117 @@ export default function MapperComponent() {
             </div>
           </div>
         )}
+
+        {/* Context Footer */}
+        <div className="mt-16 bg-gray-100 rounded-lg p-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Schema Info */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">
+                {template?.title}
+              </h3>
+              <div className="space-y-2 text-sm text-gray-600">
+                {schema === 'shopify-products' && (
+                  <>
+                    <p>• Map product catalogs with variants and pricing</p>
+                    <p>• Handle inventory tracking and status updates</p>
+                    <p>• Validate SKUs, prices, and product descriptions</p>
+                  </>
+                )}
+                {schema === 'shopify-inventory' && (
+                  <>
+                    <p>• Update stock levels across multiple locations</p>
+                    <p>• Handle inventory adjustments and tracking</p>
+                    <p>• Validate quantities and location mappings</p>
+                  </>
+                )}
+                {schema === 'stripe-customers' && (
+                  <>
+                    <p>• Import customer data with address validation</p>
+                    <p>• Validate email formats and contact info</p>
+                    <p>• Handle international address formats</p>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Processing Limits */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Processing Limits</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <span className="text-gray-600">Free: Up to {LARGE_FILE_LIMIT.toLocaleString()} rows</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <span className="text-gray-600">Web Pass ($5): Up to {PREMIUM_FILE_LIMIT.toLocaleString()} rows</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
+                  <span className="text-gray-600">CLI Tool: Unlimited (free)</span>
+                </div>
+                {hasLargeFilePass && largeFilePassInfo?.isValid && (
+                  <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-blue-700">
+                    ✅ Large File Pass Active ({largeFilePassInfo.hoursRemaining}h remaining)
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Resources</h3>
+              <div className="space-y-2 text-sm">
+                <Link 
+                  href={`/docs/${schema}-csv-mapper`}
+                  className="block text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  📖 Complete Guide & Examples
+                </Link>
+                <Link 
+                  href="/pricing"
+                  className="block text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  💳 Pricing & Large Files
+                </Link>
+                <Link 
+                  href="/cli"
+                  className="block text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  ⚡ CLI Tool (Unlimited)
+                </Link>
+                <Link 
+                  href="/self-host"
+                  className="block text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  🔒 Self-Host Option
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Sample Data CTA */}
+          <div className="mt-6 pt-4 border-t border-gray-300">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="text-sm text-gray-600">
+                <span className="font-medium">Need test data?</span> Load our sample CSV to see how mapping works.
+              </div>
+              <button
+                onClick={() => {
+                  window.location.hash = `#sample=${
+                    schema === 'shopify-products' ? 'products' :
+                    schema === 'shopify-inventory' ? 'inventory' : 'customers'
+                  }`;
+                  window.location.reload();
+                }}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
+              >
+                Load Sample CSV
+              </button>
+            </div>
+          </div>
+        </div>
       </main>
 
       {/* Large file modal */}
