@@ -1,8 +1,15 @@
+import Link from 'next/link';
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+            <Link href="/" className="hover:text-gray-900">SchemaMap</Link>
+            <span>/</span>
+            <span className="text-gray-900">Privacy</span>
+          </nav>
           <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
         </div>
       </header>

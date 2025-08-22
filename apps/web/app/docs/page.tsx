@@ -37,7 +37,7 @@ export default function DocsPage() {
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-            <Link href="/" className="hover:text-gray-900">Home</Link>
+            <Link href="/" className="hover:text-gray-900">SchemaMap</Link>
             <span>/</span>
             <span className="text-gray-900">Documentation</span>
           </nav>
