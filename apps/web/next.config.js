@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Note: Removed 'output: export' to enable API routes for Stripe payments
-  // The original setup was working - just needed live Stripe keys
+  output: 'export',
   trailingSlash: true,
   images: {
     unoptimized: true,
