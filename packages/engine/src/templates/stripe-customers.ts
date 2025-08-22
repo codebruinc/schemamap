@@ -3,11 +3,23 @@ import { Template } from '../types';
 export const stripeCustomersTemplate: Template = {
   key: 'stripe-customers',
   title: 'Stripe Customers',
+  templateVersion: '2025.1.0',
+  ruleVersion: '1.0.0',
+  sourceUrls: [
+    'https://docs.stripe.com/stripe-data/import-external-data',
+    'https://docs.stripe.com/stripe-data/import-external-data/data-template',
+    'https://docs.stripe.com/get-started/data-migrations/export-file-formats'
+  ],
+  lastVerified: '2025-01-14',
   notes: [
-    'Email must be in valid format',
-    'Country should be 2-letter code (US, CA) or full name',
-    'Names will be properly capitalized',
-    'All address fields are optional',
+    'Based on Stripe Data Management import specifications (2025)',
+    'UTF-8 encoding required, comma-delimited values',
+    'Email required and validated (RFC-compliant, permissive)',
+    'Country: accepts ISO-2 codes or common names → normalizes to ISO-2',
+    'Phone: accepts any format, suggests E.164 (non-fatal)',
+    'Address fields optional, trimmed and collapsed whitespace',
+    'All fields containing commas must be wrapped in double quotes',
+    'Empty fields left entirely empty (no character between delimiters)',
   ],
   fields: [
     {

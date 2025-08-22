@@ -277,8 +277,14 @@ export default function MapperComponent() {
   const downloadMapping = useCallback(() => {
     const mappingData = {
       schema: schema,
+      templateVersion: template.templateVersion,
+      ruleVersion: template.ruleVersion,
+      lastVerified: template.lastVerified,
+      sourceUrls: template.sourceUrls,
       mapping: mapping,
-      transforms: transforms
+      transforms: transforms,
+      generatedAt: new Date().toISOString(),
+      generatedBy: 'SchemaMap Web Interface'
     };
     const blob = new Blob([JSON.stringify(mappingData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -287,7 +293,7 @@ export default function MapperComponent() {
     a.download = `${schema}-mapping.json`;
     a.click();
     URL.revokeObjectURL(url);
-  }, [schema, mapping, transforms]);
+  }, [schema, template, mapping, transforms]);
 
   const downloadErrorReport = useCallback(() => {
     if (!validation || validation.sampleErrors.length === 0) return;
@@ -409,6 +415,37 @@ export default function MapperComponent() {
                 <div>
                   <span className="text-sm font-medium text-gray-500">Columns</span>
                   <p className="text-gray-900">{headers.length}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Template specification info */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-blue-900">Template Specification</h3>
+                  <div className="text-sm text-blue-800 mt-1 space-y-1">
+                    <div>Version: {template.templateVersion} (Rules: {template.ruleVersion})</div>
+                    <div>Last verified: {template.lastVerified}</div>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {template.sourceUrls.map((url, idx) => (
+                        <a 
+                          key={idx} 
+                          href={url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 underline text-xs"
+                        >
+                          📋 Official Spec {idx + 1}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-blue-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                 </div>
               </div>
             </div>

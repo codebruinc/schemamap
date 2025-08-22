@@ -115,10 +115,10 @@ function applyTransforms(value: any, transforms: string[] = []): any {
 /**
  * Validate a single value against a field definition
  */
-function validateValue(value: any, field: Field): string | null {
+function validateValue(value: any, field: Field, sourceHeader?: string): string | null {
   // Handle required fields
   if (field.required && (value === null || value === undefined || value === '')) {
-    return `Required field is empty`;
+    return `Required field "${field.label}" is empty. This field is required for ${field.key.includes('email') ? 'customer identification' : field.key.includes('sku') ? 'product identification' : 'proper data processing'}.`;
   }
   
   // Skip validation for empty optional fields
@@ -126,36 +126,116 @@ function validateValue(value: any, field: Field): string | null {
     return null;
   }
   
-  // Type validation
+  // Type validation with context
   switch (field.type) {
     case 'number':
       if (typeof value !== 'number' && isNaN(parseFloat(String(value)))) {
-        return `Must be a number, got: ${value}`;
+        return `"${field.label}" must be a valid number, but got "${value}". ${sourceHeader ? `Check column "${sourceHeader}".` : ''} Example: 29.99 or 150`;
       }
       if (field.key.includes('price') && parseFloat(String(value)) < 0) {
-        return `Price cannot be negative: ${value}`;
+        return `"${field.label}" cannot be negative, but got "${value}". Prices must be 0 or greater. Use 0 for free items.`;
+      }
+      if (field.key.includes('inventory') || field.key.includes('qty')) {
+        const num = parseFloat(String(value));
+        if (num < -999999 || num > 999999) {
+          return `"${field.label}" value "${value}" is outside reasonable range. Should be between -999,999 and 999,999.`;
+        }
       }
       break;
       
     case 'boolean':
       if (!['TRUE', 'FALSE', true, false].includes(value)) {
-        return `Must be TRUE or FALSE, got: ${value}`;
+        return `"${field.label}" must be TRUE or FALSE, but got "${value}". ${sourceHeader ? `Check column "${sourceHeader}".` : ''} Use TRUE/FALSE, true/false, 1/0, or yes/no.`;
       }
       break;
       
     case 'enum':
       if (field.enumValues && !field.enumValues.includes(String(value))) {
-        return `Must be one of: ${field.enumValues.join(', ')}, got: ${value}`;
+        return `"${field.label}" must be one of: ${field.enumValues.join(', ')}, but got "${value}". ${sourceHeader ? `Check column "${sourceHeader}".` : ''}`;
       }
       break;
       
     case 'string':
+      // Enhanced email validation
       if (field.key === 'email' && typeof value === 'string') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-          return `Invalid email format: ${value}`;
+        const emailStr = String(value).trim();
+        
+        // More comprehensive email validation
+        if (emailStr.length === 0) {
+          return `"${field.label}" is required but appears to be empty. ${sourceHeader ? `Check column "${sourceHeader}".` : ''}`;
+        }
+        
+        if (emailStr.length > 254) {
+          return `"${field.label}" is too long (${emailStr.length} characters). Email addresses should be under 254 characters.`;
+        }
+        
+        // Check for basic format
+        if (!emailStr.includes('@')) {
+          return `"${field.label}" "${emailStr}" is missing @ symbol. Email format should be: name@domain.com`;
+        }
+        
+        const parts = emailStr.split('@');
+        if (parts.length !== 2) {
+          return `"${field.label}" "${emailStr}" has multiple @ symbols. Email should have exactly one @ symbol.`;
+        }
+        
+        const [localPart, domain] = parts;
+        
+        if (localPart.length === 0) {
+          return `"${field.label}" "${emailStr}" is missing the name part before @. Email format should be: name@domain.com`;
+        }
+        
+        if (domain.length === 0) {
+          return `"${field.label}" "${emailStr}" is missing the domain part after @. Email format should be: name@domain.com`;
+        }
+        
+        if (!domain.includes('.')) {
+          return `"${field.label}" "${emailStr}" domain is missing a dot. Domain should include extension like .com, .org, etc.`;
+        }
+        
+        const domainParts = domain.split('.');
+        if (domainParts.some(part => part.length === 0)) {
+          return `"${field.label}" "${emailStr}" has empty parts in domain. Check for double dots or trailing dots.`;
+        }
+        
+        // More strict regex check
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        if (!emailRegex.test(emailStr)) {
+          return `"${field.label}" "${emailStr}" contains invalid characters. Use only letters, numbers, and common symbols like dots, hyphens, underscores.`;
         }
       }
+      
+      // Phone number validation
+      if (field.key === 'phone' && typeof value === 'string' && value.trim() !== '') {
+        const phoneStr = String(value).trim();
+        // Very basic phone validation - just check for reasonable length and contains digits
+        if (phoneStr.length < 7 || phoneStr.length > 20) {
+          return `"${field.label}" "${phoneStr}" should be 7-20 characters long. Include country code if international (e.g., +1-555-123-4567).`;
+        }
+        if (!/\d/.test(phoneStr)) {
+          return `"${field.label}" "${phoneStr}" should contain at least one digit. Format examples: +1-555-123-4567, (555) 123-4567, 555.123.4567`;
+        }
+      }
+      
+      // Country code validation
+      if (field.key === 'country' && typeof value === 'string' && value.trim() !== '') {
+        const countryStr = String(value).trim().toUpperCase();
+        if (countryStr.length === 1) {
+          return `"${field.label}" "${value}" is too short. Use 2-letter country codes (US, CA, GB) or full country names (United States, Canada, United Kingdom).`;
+        }
+        if (countryStr.length > 56) { // Longest country name
+          return `"${field.label}" "${value}" is too long. Use 2-letter country codes (US, CA, GB) or standard country names.`;
+        }
+      }
+      
+      // Postal code basic validation
+      if ((field.key === 'postal_code' || field.key.includes('zip')) && typeof value === 'string' && value.trim() !== '') {
+        const postalStr = String(value).trim();
+        if (postalStr.length < 3 || postalStr.length > 12) {
+          return `"${field.label}" "${postalStr}" should be 3-12 characters. Examples: 90210, K1A 0A9, SW1A 1AA, 12345-6789`;
+        }
+      }
+      
       break;
   }
   
@@ -163,16 +243,34 @@ function validateValue(value: any, field: Field): string | null {
 }
 
 /**
- * Check for business logic warnings specific to Shopify Products
+ * Check for business logic warnings for all templates
  */
 function checkBusinessLogic(
   rows: any[],
   template: Template,
   mapping: GuessMappingResult
 ): BusinessWarning[] {
-  if (template.key !== 'shopify-products') {
-    return [];
+  const warnings: BusinessWarning[] = [];
+  
+  if (template.key === 'shopify-products') {
+    warnings.push(...checkShopifyProductsLogic(rows, template, mapping));
+  } else if (template.key === 'stripe-customers') {
+    warnings.push(...checkStripeCustomersLogic(rows, template, mapping));
+  } else if (template.key === 'shopify-inventory') {
+    warnings.push(...checkShopifyInventoryLogic(rows, template, mapping));
   }
+  
+  return warnings;
+}
+
+/**
+ * Business logic warnings for Shopify Products
+ */
+function checkShopifyProductsLogic(
+  rows: any[],
+  template: Template,
+  mapping: GuessMappingResult
+): BusinessWarning[] {
 
   const warnings: BusinessWarning[] = [];
   
@@ -254,6 +352,123 @@ function checkBusinessLogic(
 }
 
 /**
+ * Business logic warnings for Stripe Customers  
+ */
+function checkStripeCustomersLogic(
+  rows: any[],
+  template: Template,
+  mapping: GuessMappingResult
+): BusinessWarning[] {
+  const warnings: BusinessWarning[] = [];
+  
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    
+    const emailHeader = mapping['email'];
+    const nameHeader = mapping['name'];
+    const phoneHeader = mapping['phone'];
+    const countryHeader = mapping['country'];
+    const addressHeader = mapping['address_line1'];
+    
+    // Check for customers with no contact info besides email
+    if (emailHeader && !nameHeader && !phoneHeader) {
+      const email = row[emailHeader];
+      if (email && email.trim()) {
+        warnings.push({
+          row: i + 1,
+          type: 'minimal_customer_info',
+          message: `Customer has only email "${email}" - consider adding name or phone for better identification`
+        });
+      }
+    }
+    
+    // Check for suspicious email domains
+    if (emailHeader) {
+      const email = row[emailHeader];
+      if (email && typeof email === 'string') {
+        const emailStr = email.trim().toLowerCase();
+        if (emailStr.includes('test') || emailStr.includes('example') || emailStr.includes('demo')) {
+          warnings.push({
+            row: i + 1,
+            type: 'test_email_detected',
+            message: `Email "${email}" appears to be a test/example address - verify this is real customer data`
+          });
+        }
+      }
+    }
+    
+    // Check for inconsistent country/address data
+    if (countryHeader && addressHeader) {
+      const country = row[countryHeader];
+      const address = row[addressHeader];
+      
+      if (country && address && typeof country === 'string' && typeof address === 'string') {
+        const countryStr = country.trim().toLowerCase();
+        const addressStr = address.trim().toLowerCase();
+        
+        // Simple heuristic for address/country mismatches
+        if ((countryStr.includes('us') || countryStr.includes('america')) && !addressStr.match(/\d+/)) {
+          warnings.push({
+            row: i + 1,
+            type: 'address_format_mismatch',
+            message: `US customer but address "${address}" doesn't include house number - verify address format`
+          });
+        }
+      }
+    }
+  }
+  
+  return warnings;
+}
+
+/**
+ * Business logic warnings for Shopify Inventory
+ */
+function checkShopifyInventoryLogic(
+  rows: any[],
+  template: Template,  
+  mapping: GuessMappingResult
+): BusinessWarning[] {
+  const warnings: BusinessWarning[] = [];
+  
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    
+    const skuHeader = mapping['variant_sku'];
+    const availableHeader = mapping['available'];
+    const costHeader = mapping['cost'];
+    
+    // Check for negative inventory without explanation
+    if (availableHeader) {
+      const available = row[availableHeader];
+      if (available && typeof available === 'number' && available < -100) {
+        warnings.push({
+          row: i + 1,
+          type: 'large_negative_inventory',
+          message: `Large negative inventory (${available}) - verify this adjustment is intentional`
+        });
+      }
+    }
+    
+    // Check for missing cost data on high-value adjustments
+    if (availableHeader && costHeader) {
+      const available = row[availableHeader];
+      const cost = row[costHeader];
+      
+      if (available && Math.abs(parseFloat(String(available))) > 100 && (!cost || parseFloat(String(cost)) === 0)) {
+        warnings.push({
+          row: i + 1,
+          type: 'high_qty_no_cost',
+          message: `Large quantity adjustment (${available}) but no unit cost specified - consider adding cost data for accounting`
+        });
+      }
+    }
+  }
+  
+  return warnings;
+}
+
+/**
  * Validate rows against template and mapping
  */
 export function validateRows(
@@ -289,7 +504,7 @@ export function validateRows(
       value = applyTransforms(value, field.transform);
       
       // Validate
-      const error = validateValue(value, field);
+      const error = validateValue(value, field, sourceHeader);
       if (error) {
         errors.push({
           row: i + 1,

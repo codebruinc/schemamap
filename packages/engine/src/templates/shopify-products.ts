@@ -3,11 +3,23 @@ import { Template } from '../types';
 export const shopifyProductsTemplate: Template = {
   key: 'shopify-products',
   title: 'Shopify Products',
+  templateVersion: '2025.1.0',
+  ruleVersion: '1.0.0',
+  sourceUrls: [
+    'https://help.shopify.com/en/manual/products/import-export/using-csv',
+    'https://help.shopify.com/en/manual/products/import-export/import-products',
+    'https://help.shopify.com/en/manual/products/import-export/common-import-issues'
+  ],
+  lastVerified: '2025-01-14',
   notes: [
-    'TRUE/FALSE required for Published field',
-    'Status must be active, draft, or archived',
-    'Variant Price must be numeric and ≥ 0',
+    'Based on official Shopify CSV import specifications (2025)',
+    'UTF-8 encoding required, comma-separated values',
+    'TRUE/FALSE required for Published field (coerces yes/no/1/0)',
+    'Status must be active, draft, or archived (case-insensitive)',
+    'Variant Price must be numeric and ≥ 0 (no currency symbols)',
     'Handle should be URL-friendly (lowercase, hyphens)',
+    'Inventory Policy must be deny or continue',
+    'Required: Title (for new products), Handle (for variants)',
   ],
   fields: [
     {

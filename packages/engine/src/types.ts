@@ -13,6 +13,10 @@ export type Template = {
   title: string;
   fields: Field[];
   notes: string[];
+  templateVersion: string;
+  ruleVersion: string;
+  sourceUrls: string[];
+  lastVerified: string; // ISO date
 };
 
 export type ValidationError = {
@@ -24,7 +28,9 @@ export type ValidationError = {
 
 export type BusinessWarning = {
   row: number;
-  type: 'unpublished_with_inventory' | 'zero_price_active' | 'deny_policy_no_stock';
+  type: 'unpublished_with_inventory' | 'zero_price_active' | 'deny_policy_no_stock' | 
+        'minimal_customer_info' | 'test_email_detected' | 'address_format_mismatch' |
+        'large_negative_inventory' | 'high_qty_no_cost';
   message: string;
 };
 

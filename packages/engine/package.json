@@ -10,7 +10,9 @@
     "lint": "tsc --noEmit",
     "test": "vitest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "papaparse": "^5.5.3"
+  },
   "devDependencies": {
     "@types/node": "^20.19.11",
     "tsup": "^8.5.0",
