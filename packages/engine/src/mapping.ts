@@ -20,49 +20,74 @@ import { Template, Field, GuessMappingResult, ValidationResult, ValidationError,
  */
 export function guessMapping(headers: string[], template: Template): GuessMappingResult {
   const mapping: GuessMappingResult = {};
+  const usedHeaders = new Set<string>();
   
   for (const field of template.fields) {
     const candidates = [field.label, field.key, ...(field.synonyms || [])];
     let bestMatch = '';
     let bestScore = Infinity;
+    let bestType = '';
     
     for (const header of headers) {
+      if (usedHeaders.has(header)) continue; // Don't reuse headers
+      
       const normalizedHeader = header.toLowerCase().trim();
       
       for (const candidate of candidates) {
-        const normalizedCandidate = candidate.toLowerCase();
+        const normalizedCandidate = candidate.toLowerCase().trim();
         
-        // Exact match gets priority
+        // Exact match gets highest priority
         if (normalizedHeader === normalizedCandidate) {
           bestMatch = header;
           bestScore = 0;
+          bestType = 'exact';
           break;
         }
         
-        // Contains match
-        if (normalizedHeader.includes(normalizedCandidate) || normalizedCandidate.includes(normalizedHeader)) {
-          const score = Math.abs(normalizedHeader.length - normalizedCandidate.length);
-          if (score < bestScore) {
-            bestMatch = header;
-            bestScore = score;
+        // Word boundary matches (like "product price" contains "price")
+        const headerWords = normalizedHeader.split(/[\s_-]+/);
+        const candidateWords = normalizedCandidate.split(/[\s_-]+/);
+        
+        // Check if any candidate word exactly matches any header word
+        for (const candidateWord of candidateWords) {
+          if (candidateWord.length > 2 && headerWords.includes(candidateWord)) {
+            const score = Math.abs(normalizedHeader.length - normalizedCandidate.length);
+            if (score < bestScore || (score === bestScore && bestType !== 'exact')) {
+              bestMatch = header;
+              bestScore = score;
+              bestType = 'word';
+            }
           }
         }
         
-        // Fuzzy match
+        // Contains match (broader matching)
+        if (normalizedHeader.includes(normalizedCandidate) || normalizedCandidate.includes(normalizedHeader)) {
+          const score = Math.abs(normalizedHeader.length - normalizedCandidate.length);
+          if (score < bestScore || (score === bestScore && bestType === '')) {
+            bestMatch = header;
+            bestScore = score;
+            bestType = 'contains';
+          }
+        }
+        
+        // Fuzzy match as fallback
         const distance = levenshtein.get(normalizedHeader, normalizedCandidate);
         const similarity = 1 - distance / Math.max(normalizedHeader.length, normalizedCandidate.length);
         
-        if (similarity > 0.7 && distance < bestScore) {
+        if (similarity > 0.7 && distance < bestScore && bestType === '') {
           bestMatch = header;
           bestScore = distance;
+          bestType = 'fuzzy';
         }
       }
       
       if (bestScore === 0) break; // Found exact match
     }
     
-    if (bestMatch && bestScore < 3) {
+    // Accept the match if it's good enough
+    if (bestMatch && (bestScore === 0 || (bestScore <= 10 && bestType !== ''))) {
       mapping[field.key] = bestMatch;
+      usedHeaders.add(bestMatch);
     }
   }
   
