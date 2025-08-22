@@ -6,7 +6,7 @@
 @layer base {
   /* Improve default prose spacing */
   .prose {
-    @apply prose-lg;
+    @apply text-lg;
   }
   
   .prose h1,

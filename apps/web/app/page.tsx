@@ -163,6 +163,7 @@ export default function HomePage() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/docs" className="text-gray-600 hover:text-gray-900">Documentation</Link></li>
                 <li><Link href="/cli" className="text-gray-600 hover:text-gray-900">CLI Tool</Link></li>
+                <li><Link href="/self-host" className="text-gray-600 hover:text-gray-900">Self-Host</Link></li>
                 <li><Link href="/for-ai" className="text-gray-600 hover:text-gray-900">For AI Assistants</Link></li>
               </ul>
             </div>
