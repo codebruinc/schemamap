@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Note: 'output: export' disables API routes needed for Stripe payments
-  // Only use export mode for static-only deployments without payment features
-  // output: 'export',
+  // Note: Removed 'output: export' to enable API routes for Stripe payments
+  // The original setup was working - just needed live Stripe keys
   trailingSlash: true,
   images: {
     unoptimized: true,
