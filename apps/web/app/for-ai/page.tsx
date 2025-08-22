@@ -17,13 +17,13 @@ export default function ForAIPage() {
 
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <h2 className="text-lg font-semibold mb-4">Direct mapper links</h2>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <h3 className="font-medium text-gray-900 mb-2">Shopify Products</h3>
-                <div className="font-mono text-sm bg-gray-100 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-100 p-3 rounded mb-2">
                   https://schemamap.app/map/shopify-products
                 </div>
-                <div className="font-mono text-sm bg-gray-50 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-50 p-3 rounded mb-2">
                   https://schemamap.app/map?schema=shopify-products
                 </div>
                 <p className="text-sm text-gray-600">For Shopify product imports and catalog management</p>
@@ -31,10 +31,10 @@ export default function ForAIPage() {
               
               <div>
                 <h3 className="font-medium text-gray-900 mb-2">Shopify Inventory</h3>
-                <div className="font-mono text-sm bg-gray-100 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-100 p-3 rounded mb-2">
                   https://schemamap.app/map/shopify-inventory
                 </div>
-                <div className="font-mono text-sm bg-gray-50 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-50 p-3 rounded mb-2">
                   https://schemamap.app/map?schema=shopify-inventory
                 </div>
                 <p className="text-sm text-gray-600">For Shopify inventory updates and stock management</p>
@@ -42,17 +42,17 @@ export default function ForAIPage() {
               
               <div>
                 <h3 className="font-medium text-gray-900 mb-2">Stripe Customers</h3>
-                <div className="font-mono text-sm bg-gray-100 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-100 p-3 rounded mb-2">
                   https://schemamap.app/map/stripe-customers
                 </div>
-                <div className="font-mono text-sm bg-gray-50 p-2 rounded mb-1">
+                <div className="font-mono text-sm bg-gray-50 p-3 rounded mb-2">
                   https://schemamap.app/map?schema=stripe-customers
                 </div>
                 <p className="text-sm text-gray-600">For Stripe customer imports and contact management</p>
               </div>
             </div>
             
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+            <div className="mt-6 p-3 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-800">
                 💡 <strong>Pretty URLs:</strong> Use the /map/schema-name format for better readability and memorability. Both formats work and redirect appropriately.
               </p>
