@@ -4,21 +4,35 @@ Map messy CSVs to Shopify/Stripe in 30 seconds. No login. Runs in your browser.
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/codebruinc/schemamap/workflows/ci/badge.svg)](https://github.com/codebruinc/schemamap/actions)
+[![npm version](https://img.shields.io/npm/v/@schemamap/cli.svg)](https://www.npmjs.com/package/@schemamap/cli)
+[![Open in Browser](https://img.shields.io/badge/Open%20in%20Browser-schemamap.app-blue?style=flat&logo=googlechrome)](https://schemamap.app)
 
 ## 🚀 Quick Start
 
 **Web App:** [schemamap.app](https://schemamap.app)
 
-**Direct Links:**
-- [Shopify Products Mapper](https://schemamap.app/map?schema=shopify-products)
-- [Shopify Inventory Mapper](https://schemamap.app/map?schema=shopify-inventory) 
-- [Stripe Customers Mapper](https://schemamap.app/map?schema=stripe-customers)
+**Direct Links (Pretty URLs):**
+- [Shopify Products Mapper](https://schemamap.app/map/shopify-products)
+- [Shopify Inventory Mapper](https://schemamap.app/map/shopify-inventory) 
+- [Stripe Customers Mapper](https://schemamap.app/map/stripe-customers)
+
+**Query URLs (for AI assistants):**
+- `https://schemamap.app/map?schema=shopify-products`
+- `https://schemamap.app/map?schema=shopify-inventory`  
+- `https://schemamap.app/map?schema=stripe-customers`
 
 **CLI:**
 ```bash
 npm install -g @schemamap/cli
 schemamap --help
 ```
+
+**Test with Sample Data:**
+- [Shopify Products CSV](sample-data/shopify-products.csv) 
+- [Shopify Inventory CSV](sample-data/shopify-inventory.csv)
+- [Stripe Customers CSV](sample-data/stripe-customers.csv)
+
+See [sample-data/README.md](sample-data/README.md) for details.
 
 ## 🔒 Privacy Statement
 

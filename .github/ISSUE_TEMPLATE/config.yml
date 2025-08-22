@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Community Discussions
+    url: https://github.com/codebruinc/schemamap/discussions
+    about: Ask questions and discuss SchemaMap with the community
+  - name: 🌟 Feature Request Discussion
+    url: https://github.com/codebruinc/schemamap/discussions/categories/ideas
+    about: Suggest new features or improvements
+  - name: 🔗 Quick Help - Stack Overflow
+    url: https://stackoverflow.com/questions/tagged/csv+mapping
+    about: Get quick help with CSV mapping questions

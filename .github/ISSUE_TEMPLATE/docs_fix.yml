@@ -1,0 +1,68 @@
+name: Documentation Fix
+description: Report an issue with documentation
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation!
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: Which type of documentation needs fixing?
+      options:
+        - README
+        - Web App Documentation (/docs)
+        - CLI Documentation
+        - Code Comments
+        - Contributing Guide
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: page_url
+    attributes:
+      label: Page/Section
+      description: Which page or section has the issue?
+      placeholder: e.g., README.md, /docs/shopify-products-csv-mapper, CLI --help output
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - Typo/Grammar
+        - Incorrect Information
+        - Missing Information
+        - Unclear Instructions
+        - Broken Link
+        - Formatting Issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Content
+      description: Copy the current text that needs fixing
+      placeholder: Paste the current text here...
+
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested Fix
+      description: How should it be corrected?
+      placeholder: Provide your suggested correction...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about this documentation issue
