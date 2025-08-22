@@ -119,7 +119,7 @@ export default function MapperComponent() {
           { 'Email': 'sarah.doe@company.co.uk', 'Name': 'Sarah Doe', 'Phone': '+44-20-7946-0958', 'Address Line 1': '42 Baker Street', 'Address Line 2': '', 'City': 'London', 'State': 'England', 'Postal Code': 'NW1 6XE', 'Country': 'GB', 'Description': 'Corporate account' },
           { 'Email': 'mike.davis@tech.ca', 'Name': 'Mike Davis', 'Phone': '+1-416-555-0125', 'Address Line 1': '789 Pine St', 'Address Line 2': '', 'City': 'Toronto', 'State': 'ON', 'Postal Code': 'M5H 2N2', 'Country': 'CA', 'Description': '' },
           { 'Email': 'emma@startup.io', 'Name': 'Emma Chen', 'Phone': '+1-415-555-0199', 'Address Line 1': '1 Hacker Way', 'Address Line 2': '', 'City': 'Menlo Park', 'State': 'CA', 'Postal Code': '94301', 'Country': 'US', 'Description': 'Bulk orders' },
-          { 'Email': 'invalid-email-format', 'Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Address Line 1': '654 maple ln', 'Address Line 2': '', 'City': 'phoenix', 'State': 'az', 'Postal Code': '85001', 'Country': 'us', 'Description': 'Data needs cleanup' }
+          { 'Email': 'alex.brown@example.com', 'Name': 'Alex Brown', 'Phone': '+1-555-0127', 'Address Line 1': '654 Maple Lane', 'Address Line 2': '', 'City': 'Phoenix', 'State': 'AZ', 'Postal Code': '85001', 'Country': 'US', 'Description': 'Regular customer' }
         ]
       };
 
